@@ -40,7 +40,7 @@ nav {
 nav > a {
   font-family: "Raleway", sans-serif;
   font-size: 13px;
-  color: white;
+  color: #ffffff;
   text-decoration: none;
   position: relative;
 }
@@ -71,7 +71,7 @@ header > img {
 .hero-box .title {
   font-family: "Raleway", sans-serif;
   font-size: 45px;
-  color: white;
+  color: #ffffff;
   max-width: 300px;
 }
 
@@ -91,7 +91,7 @@ header > img {
   margin-bottom: 26px;
   width: 18px;
   height: 2px;
-  background-color: white;
+  background-color: #ffffff;
   transform: translateY(15px);
   margin-right: 72px;
 }
@@ -114,7 +114,7 @@ header > img {
 
 .bright-orange-layout .intro {
   background-color: var(--main-color);
-  color: white;
+  color: #ffffff;
   padding: 20px;
   font-family: "Raleway", sans-serif;
   box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.16);
@@ -199,7 +199,7 @@ header > img {
   background-color: var(--main-color);
   font-size: var(--title-font-size);
   font-family: "Raleway", sans-serif;
-  color: white;
+  color: #ffffff;
   height: 100%;
   padding-top: 20px;
   padding-left: 10px;
@@ -214,7 +214,7 @@ header > img {
 section.group-text {
   background-color: var(--main-color);
   padding: 20px;
-  color: white;
+  color: #ffffff;
   display: grid;
   row-gap: 20px;
 }
@@ -231,7 +231,7 @@ section.contact-form {
 
 .contact-form .title {
   font-size: var(--title-font-size);
-  color: white;
+  color: #ffffff;
   font-family: "Raleway", sans-serif;
 }
 
@@ -261,9 +261,9 @@ section.contact-form {
   width: fit-content;
   padding: 10px;
   background: var(--second-color);
-  color: white;
+  color: #ffffff;
   font-size: 15px;
-  border: 1px solid white;
+  border: 1px solid #ffffff;
 }
 
 @media (min-width: 768px) {
@@ -401,7 +401,7 @@ section.contact-form {
   }
 
   .bright-orange-layout .content {
-    background-color: white;
+    background-color: #ffffff;
     height: 100%;
     padding-top: 77px;
     padding-left: 53px;
@@ -441,11 +441,25 @@ section.contact-form {
     margin-left: 210px;
   }
 
-  .contact-form {
+  .contact-form .group-input {
     flex-wrap: nowrap;
   }
 
-  
+  .contact-form .group-input button,
+  .contact-form .group-input input {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    flex-grow: 1;
+  }
+
+  .contact-form .group-input input:nth-last-of-type(1) {
+    flex-grow: 2;
+    max-width: none;
+  }
+
+  .contact-form .group-input button {
+    max-width: 154px;
+  }
 
   .contact-form .group-input input {
     padding-top: 10px;
