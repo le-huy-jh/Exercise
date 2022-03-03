@@ -344,6 +344,7 @@ footer > div:last-child {
   .group-text {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    gap: 24px;
   }
 
   .words-and-such {
