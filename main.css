@@ -35,18 +35,6 @@ header {
   margin-right: 30px;
 }
 
-#menu-toggle {
-  display: none;
-}
-
-#menu-toggle:checked ~ nav {
-  display: flex;
-  position: absolute;
-  top: 40%;
-  width: 100%;
-  border-radius: 5px;
-}
-
 .hamburger-menu {
   cursor: pointer;
 }
@@ -81,6 +69,19 @@ header {
   position: relative;
 }
 
+#menu-toggle {
+  display: none;
+}
+
+#menu-toggle:checked ~ nav {
+  display: flex;
+  position: absolute;
+  top: 40%;
+  width: 100%;
+  border-radius: 5px;
+  visibility: visible;
+}
+
 nav {
   display: none;
   /* for hamburger */
@@ -88,6 +89,7 @@ nav {
   background-color: var(--second-color);
   position: relative;
   z-index: 1;
+  transition: all 0.3s linear;
 }
 
 nav > a {
@@ -192,6 +194,7 @@ nav > a:hover::before {
 }
 
 .bright-orange-layout .text {
+  line-height: 23px;
   font-size: 13px;
   margin-top: 30px;
   font-family: "Open Sans", sans-serif;
@@ -308,6 +311,7 @@ nav > a:hover::before {
 .group-text > .text {
   font-size: 14px;
   font-family: "Open Sans", sans-serif;
+  line-height: 24px;
 }
 
 .contact-form {
@@ -441,6 +445,7 @@ footer > div:last-child {
   .grid-container div,
   .country > .title {
     font-size: var(--title-font-size);
+    line-height: 39px;
   }
 
   .bright-orange-layout .content,
@@ -449,10 +454,7 @@ footer > div:last-child {
     padding: 80px;
   }
 
-  footer {
-    padding-left: 110px;
-  }
-
+  footer,
   .bottom .content {
     padding-left: 110px;
   }
@@ -612,6 +614,7 @@ footer > div:last-child {
     font-size: 60px;
     padding-top: 99px;
     padding-left: 60px;
+    line-height: 70px;
   }
 
   .words-and-such .grid-container {
@@ -630,6 +633,10 @@ footer > div:last-child {
   .decoration,
   .bottom {
     margin-left: 210px;
+  }
+
+  .words-and-such-content {
+    padding-left: 60px;
   }
 
   .contact-form {
@@ -669,6 +676,10 @@ footer > div:last-child {
   .bright-orange-layout.bottom {
     margin-right: max(5%, 211px);
     transform: translateY(-25%);
+  }
+
+  .bottom .intro {
+    padding-left: 61px;
   }
 
   footer {
