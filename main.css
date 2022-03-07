@@ -35,15 +35,13 @@ html {
 header {
   margin-bottom: -166px;
   margin-top: 10px;
-  /* position: relative; */
+  position: relative;
   z-index: 1;
   display: flex;
   justify-content: space-between;
   padding: 10px 30px;
   padding-top: 0;
   align-items: center;
-  position: sticky;
-  top: -1px;
 }
 
 header.stick {
@@ -51,6 +49,10 @@ header.stick {
   align-items: center;
   background-color: var(--second-color);
   transition: all 0.3s linear;
+  position: fixed;
+  right: 0;
+  top: -10px;
+  left: 0;
 }
 
 header.stick img {
@@ -92,7 +94,7 @@ header.stick nav {
 .hero {
   background-image: url("./assets/images/hero.png");
   background-size: cover;
-  min-height: 70vh;
+  min-height: 75vh;
   max-height: 5936px;
   background-position: center;
   position: relative;
@@ -112,7 +114,8 @@ nav {
   display: flex;
   position: absolute;
   top: 105%;
-  width: 90%;
+  left: 30px;
+  right: 30px;
   border-radius: 5px;
   visibility: hidden;
   opacity: 0;
@@ -211,12 +214,15 @@ nav {
 
 .line {
   display: inline-block;
-  margin-bottom: 26px;
   width: 18px;
   height: 2px;
   background-color: #ffffff;
   transform: translateY(15px);
   margin-right: 72px;
+}
+
+.line:nth-last-of-type(2) {
+  margin-bottom: 26px;
 }
 
 .line:nth-last-of-type(1) {
@@ -296,7 +302,7 @@ nav {
 }
 
 .share div::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 10px;
   height: 20px;
@@ -529,6 +535,7 @@ footer > div:last-child {
   }
 
   nav {
+    left: 0;
     transition: none;
     position: relative;
     flex-direction: row;
@@ -681,8 +688,6 @@ footer > div:last-child {
 }
 
 @media (min-width: 1024px) {
-  
-
   .hero {
     height: 1243px;
   }
@@ -710,7 +715,7 @@ footer > div:last-child {
   }
 
   .circle-border-arrows {
-    bottom: -106px;
+    bottom: -131px;
   }
 
   .bright-orange-layout {

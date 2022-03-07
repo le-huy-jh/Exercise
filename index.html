@@ -287,15 +287,18 @@
     </footer>
   </body>
   <script>
-    const addClass = () => {
-      if (window.scrollY >= 10) {
+    const addOrRemoveClass = () => {
+      const haveStickClass = header.classList.value.includes("stick");
+      if (window.scrollY >= 100) {
+        if (haveStickClass) return;
         header.classList.add("stick");
       } else {
+        if (!haveStickClass) return;
         header.classList.remove("stick");
       }
     };
     const header = document.querySelector("header");
-    addClass()
-    window.addEventListener("scroll", addClass);
+    addOrRemoveClass();
+    window.addEventListener("scroll", addOrRemoveClass);
   </script>
 </html>
