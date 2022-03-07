@@ -15,8 +15,12 @@
   padding: 0;
 }
 
+a {
+  text-decoration: none;
+}
+
 @font-face {
-  font-family: MyriadPro;
+  font-family: "MyriadPro";
   src: url("./assets/fonts/MyriadPro-Light.otf");
 }
 
@@ -67,6 +71,7 @@ header {
   max-height: 5936px;
   background-position: center;
   position: relative;
+  background-attachment: fixed;
 }
 
 #menu-toggle {
@@ -74,20 +79,21 @@ header {
 }
 
 #menu-toggle:checked ~ nav {
+  visibility: visible;
+  opacity: 1;
+}
+
+nav {
   display: flex;
   position: absolute;
   top: 40%;
   width: 100%;
   border-radius: 5px;
-  visibility: visible;
-}
-
-nav {
-  display: none;
+  visibility: hidden;
+  opacity: 0;
   /* for hamburger */
   flex-direction: column;
   background-color: var(--second-color);
-  position: relative;
   z-index: 1;
   transition: all 0.3s linear;
 }
@@ -95,7 +101,6 @@ nav {
 nav > a {
   /* font-family: "Raleway", sans-serif; */
   color: #ffffff;
-  text-decoration: none;
   position: relative;
   /* for hamburger */
   font-size: 20px;
@@ -348,11 +353,39 @@ nav > a:hover::before {
 
 .contact-form .group-input button {
   width: fit-content;
+  height: 40px;
   padding: 10px;
   background: var(--second-color);
   color: #ffffff;
   font-size: 15px;
   border: 1px solid #ffffff;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  transition: letter-spacing .2s .3s ease-in-out;
+  min-width: 120px;
+}
+
+.contact-form .group-input button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: calc(100% + 2px);
+  background-color: #ffffff;
+  z-index: -1;
+  transition: width .3s ease-in-out;
+}
+
+.contact-form .group-input button:hover {
+  color: var(--second-color);
+  font-weight: 400;
+  letter-spacing: 2px;
+}
+
+.contact-form .group-input button:hover:before {
+  width: calc(100% + 2px);
 }
 
 .decoration {
@@ -360,6 +393,7 @@ nav > a:hover::before {
   background-repeat: no-repeat;
   min-height: 30vh;
   background-size: cover;
+  background-attachment: fixed;
 }
 
 footer {
@@ -387,7 +421,6 @@ footer {
 
 .links .link-item a {
   display: block;
-  text-decoration: none;
   color: #ffffff;
   margin-bottom: 12px;
 }
@@ -405,10 +438,6 @@ footer > div:last-child {
     margin-left: 80px;
   }
 
-  .hero {
-    background-position: initial;
-  }
-
   nav a {
     font-size: 13px;
     padding: 0;
@@ -417,12 +446,15 @@ footer > div:last-child {
   }
 
   nav {
+    transition: none;
+    position: relative;
     flex-direction: row;
     background-color: transparent;
-    display: flex;
     justify-content: space-between;
     width: 100%;
     max-width: 427px;
+    opacity: 1;
+    visibility: visible;
   }
 
   .hero > img {
@@ -522,7 +554,7 @@ footer > div:last-child {
   }
 
   .contact-form,
-  .words-and-such .grid-container {
+  .grid-container {
     margin-left: 80px;
   }
 
@@ -551,7 +583,6 @@ footer > div:last-child {
 
   .hero {
     height: 1243px;
-    background-position: initial;
   }
 
   .hero > img {
@@ -570,7 +601,7 @@ footer > div:last-child {
 
 @media (min-width: 1140px) {
   .circle-border-arrows {
-    bottom: -110px;
+    bottom: -106px;
   }
 
   .bright-orange-layout {
@@ -605,6 +636,11 @@ footer > div:last-child {
     margin-bottom: 80px;
   }
 
+  .grid-container {
+    grid-template-columns: minmax(0, 459px) minmax(0, 459px);
+    grid-template-rows: 0.5fr 1fr;
+  }
+
   .grid-container div,
   .grid-container img {
     max-width: 459px;
@@ -617,17 +653,7 @@ footer > div:last-child {
     line-height: 70px;
   }
 
-  .words-and-such .grid-container {
-    grid-template-columns: minmax(0, 459px) minmax(0, 459px);
-    grid-template-rows: 0.5fr 1fr;
-  }
-
-  section.group-text {
-    column-gap: 82px;
-    padding: 102px 210px 65px 58px;
-  }
-
-  .words-and-such .grid-container,
+  .grid-container,
   .words-and-such-content,
   .contact-form,
   .decoration,
