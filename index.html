@@ -14,10 +14,41 @@
         <div></div>
       </label>
       <nav>
-        <a href="/">ABOUT</a>
-        <a href="/">PRODUCTS</a>
+        <div class="menu-item">
+          <a href="/">ABOUT</a>
+          <ul>
+            <li>ABOUT sub</li>
+            <li>ABOUT sub</li>
+            <li>ABOUT sub</li>
+          </ul>
+        </div>
+        <div class="menu-item">
+          <a href="/">PRODUCTS</a>
+          <ul>
+            <li>PRODUCTS sub</li>
+            <li>PRODUCTS sub</li>
+            <li>PRODUCTS sub</li>
+          </ul>
+        </div>
+        <div class="menu-item">
+          <a href="/">PROJECTS</a>
+          <ul>
+            <li>PROJECTS sub</li>
+            <li>PROJECTS sub</li>
+            <li>PROJECTS sub</li>
+          </ul>
+        </div>
+        <div class="menu-item">
+          <a href="/">CONTACT</a>
+          <ul>
+            <li>CONTACT sub</li>
+            <li>CONTACT sub</li>
+            <li>CONTACT sub</li>
+          </ul>
+        </div>
+        <!-- <a href="/">PRODUCTS</a>
         <a href="/">PROJECTS</a>
-        <a href="/">CONTACT</a>
+        <a href="/">CONTACT</a> -->
       </nav>
       <img src="./assets/images/logo.png" alt="logo" />
     </header>
@@ -32,8 +63,14 @@
         <img src="./assets/images/arrow.png" alt="arrow" />
         <span class="line"></span>
         <div class="circle-border-arrows">
-          <img src="./assets/images/white-cirlce-border-arrow.png" alt="arrow" />
-          <img src="./assets/images/orange-circle-border-arrow.png" alt="arrow" />
+          <img
+            src="./assets/images/white-cirlce-border-arrow.png"
+            alt="arrow"
+          />
+          <img
+            src="./assets/images/orange-circle-border-arrow.png"
+            alt="arrow"
+          />
         </div>
       </article>
     </section>
@@ -60,7 +97,7 @@
         </div>
         <div class="share">
           <img src="./assets/images/twitter.png" alt="twitter" />
-          <div>Tweet this shit</div>
+          <div>Tweet this shit<span>Share this!!!</span></div>
         </div>
       </div>
     </section>
@@ -249,4 +286,16 @@
       </div>
     </footer>
   </body>
+  <script>
+    const addClass = () => {
+      if (window.scrollY >= 10) {
+        header.classList.add("stick");
+      } else {
+        header.classList.remove("stick");
+      }
+    };
+    const header = document.querySelector("header");
+    addClass()
+    window.addEventListener("scroll", addClass);
+  </script>
 </html>
