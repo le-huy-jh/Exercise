@@ -434,9 +434,11 @@ footer > div:last-child {
 
 @media (min-width: 768px) {
   header {
-    justify-content: space-between;
     align-items: center;
     margin-left: 80px;
+    /* float menu */
+    /* position: sticky;
+    top: 0; */
   }
 
   nav a {
@@ -701,7 +703,7 @@ footer > div:last-child {
   }
 
   .bright-orange-layout.bottom {
-    margin-right: max(5%, 211px);
+    margin-right: min(5%, 211px);
     transform: translateY(-25%);
   }
 
