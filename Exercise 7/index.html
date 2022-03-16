@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+      button,
+      input,
+      #dropdown {
+        position: fixed;
+        padding: 8px 20px;
+        font-size: 16px;
+        background: white;
+        outline: none;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      #dropdown {
+        padding: 0;
+        bottom: 60px;
+        right: 10px;
+        max-height: 50vh;
+        overflow: scroll;
+        max-width: 30vh;
+        z-index: 1;
+      }
+
+      #dropdown p {
+        margin-left: 5px;
+      }
+
+      button:nth-last-of-type(2) {
+        top: 10px;
+        left: 10px;
+      }
+
+      button:nth-last-of-type(1) {
+        right: 10px;
+        top: 10px;
+      }
+      #customPopup {
+        position: fixed;
+        width: 300px;
+        background-color: #ffffff;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      #customGeocoder {
+        bottom: 10px;
+        right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css"
+      type="text/css"
+    />
+    <!-- Load the `mapbox-gl-geocoder` plugin. -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css"
+      type="text/css"
+    />
+    <div id="map"></div>
+    <div id="customPopup"></div>
+    <button id="toggle">Toggle</button>
+    <button id="home">Home</button>
+    <input id="customGeocoder" type="text" />
+    <div id="dropdown"></div>
+  </body>
+  <script>
+    const myPosition = {};
+    const position = {};
+    const toggleBtn = document.querySelector("#toggle");
+    const homeBtn = document.querySelector("#home");
+    const customPopup = document.querySelector("#customPopup");
+    const customGeocoder = document.querySelector("#customGeocoder");
+    const dropdown = document.querySelector("#dropdown");
+    let map, marker;
+    mapboxgl.accessToken =
+      "pk.eyJ1Ijoic2VubmluZSIsImEiOiJjbDB0aHljY2UwNnE5M2lwZXA3dG02amRoIn0.OReYhfaCWigJ7ae-eGqogg";
+    const directionControl = new MapboxDirections({
+      accessToken: mapboxgl.accessToken,
+    });
+    const geocoder = new MapboxGeocoder({
+      // Initialize the geocoder
+      accessToken: mapboxgl.accessToken, // Set the access token
+      mapboxgl: mapboxgl,
+    });
+
+    customGeocoder.oninput = (e) => {
+      dropdown.innerHTML = "";
+      fetch(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${e.target.value}.json?autocomplete=true&access_token=pk.eyJ1Ijoic2VubmluZSIsImEiOiJjbDB0aHljY2UwNnE5M2lwZXA3dG02amRoIn0.OReYhfaCWigJ7ae-eGqogg`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          data.features.map((ele) => {
+            console.log(ele.place_name);
+            const node = document.createElement("p");
+            const textNode = document.createTextNode(ele.place_name);
+            node.addEventListener("click", (e) => {
+              map.setCenter(ele.center);
+              marker.setLngLat(ele.center);
+              position["longitude"] = ele.center[0];
+              position["latitude"] = ele.center[1];
+              createPopup();
+            });
+            node.appendChild(textNode);
+            dropdown.appendChild(node);
+          });
+        })
+        .catch(() => console.log("not found"));
+    };
+
+    toggleBtn.onclick = () => {
+      if (map) {
+        if (map.hasControl(directionControl)) {
+          map.removeControl(directionControl);
+        } else {
+          map.addControl(directionControl, "bottom-left");
+        }
+      }
+    };
+
+    homeBtn.onclick = () => {
+      getLocation();
+    };
+
+    const calcPosCustomPopup = (content) => {
+      let markerEle = document.querySelector('[aria-label="Map marker"]');
+      let markerPos = markerEle.getBoundingClientRect();
+      if (content) {
+        customPopup.innerHTML = content;
+      }
+      customPopup.style.left = markerPos.x + 30 + "px";
+      customPopup.style.top = markerPos.y + 30 + "px";
+    };
+
+    const createPopup = () => {
+      fetch(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${position["longitude"]},${position["latitude"]}.json?types=poi&access_token=pk.eyJ1Ijoic2VubmluZSIsImEiOiJjbDB0aHljY2UwNnE5M2lwZXA3dG02amRoIn0.OReYhfaCWigJ7ae-eGqogg`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          calcPosCustomPopup(data.features[0].place_name);
+        });
+    };
+
+    const renderMap = () => {
+      map = new mapboxgl.Map({
+        container: "map", // container ID
+        style: "mapbox://styles/mapbox/streets-v11", // style URL
+        center: [position.longitude, position.latitude], // starting position [lng, lat]
+        zoom: 15, // starting zoom
+      });
+
+      map.on("click", (e) => {
+        position["latitude"] = e.lngLat.lat;
+        position["longitude"] = e.lngLat.lng;
+        createPopup();
+        marker.setLngLat([position["longitude"], position["latitude"]]);
+      });
+
+      map.on("drag", () => {
+        calcPosCustomPopup();
+      });
+
+      marker = new mapboxgl.Marker({ color: "red" })
+        .setLngLat([position["longitude"], position["latitude"]])
+        .addTo(map);
+      // map.addControl(geocoder, "bottom-right");
+      createPopup();
+    };
+
+    const success = (pos) => {
+      position["latitude"] = pos.coords.latitude;
+      position["longitude"] = pos.coords.longitude;
+      renderMap();
+    };
+
+    const error = () => {
+      alert("ERROR");
+    };
+
+    const getLocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(success, error, {
+          maximumAge: 60000,
+          timeout: 10000,
+          enableHighAccuracy: true,
+        });
+      }
+    };
+
+    getLocation();
+  </script>
+</html>

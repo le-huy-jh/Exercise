@@ -26,17 +26,15 @@
       },
       resolve3: (input) => {
         const obj = {};
-        const createObj = (value) => {
-          obj[value] = value;
-        };
 
-        input.forEach((element) => createObj(element));
+        input.forEach((element) => obj[value] = value);
         return Object.values(obj);
       },
     };
 
     const solutionEx2 = {
-      resolve: (input) => {
+      resolve: (inputArr) => {
+        const input = [...inputArr]
         input.sort();
         let maxCount = 1,
           currCount = 1;
@@ -59,27 +57,6 @@
       },
     };
 
-    const isPositive = (x) => x > 0;
-    const isNegative = (x) => x < 0;
-    const isZero = (x) => x === 0;
-
-    const decision = (conditionFunc, trueOutCome, falseOutCome) => (context) =>
-      conditionFunc(context) ? trueOutCome : falseOutCome;
-
-    const decide = (context, binaryDecisionTree) => {
-      const result = binaryDecisionTree(context)
-
-      return typeof result === 'function' ? decide(context, result) : result
-    }
-
-    const binaryDecisionTree = decision(
-      isPositive,
-      "+",
-      decision(isNegative, "-", decision(isZero, 0, "?"))
-    );
-
-    const contextValues = [ "number", 1,	0, -1, Number.NaN ]
-
-    contextValues.forEach(element => console.log(decide(element, binaryDecisionTree)))
+    
   </script>
 </html>
