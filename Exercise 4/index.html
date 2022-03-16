@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="main.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Carousel</h1>
+    <div class="carousel-container">
+      <div class="slides">
+        <div class="slide">
+          <div class="content">
+            <div>1</div>
+          </div>
+        </div>
+        <div class="slide">
+          <div class="content">
+            <div>2</div>
+          </div>
+        </div>
+        <div class="slide">
+          <div class="content">
+            <div>3</div>
+          </div>
+        </div>
+        <div class="slide">
+          <div class="content">
+            <div>4</div>
+          </div>
+        </div>
+        <div class="slide">
+          <div class="content">
+            <div>5</div>
+          </div>
+        </div>
+        <div class="slide">
+          <div class="content">
+            <div>6</div>
+          </div>
+        </div>
+        <div class="slide">
+          <div class="content">
+            <div>7</div>
+          </div>
+        </div>
+        <div class="slide">
+          <div class="content">
+            <div>8</div>
+          </div>
+        </div>
+        <div class="slide">
+          <div class="content">
+            <div>9</div>
+          </div>
+        </div>
+        <div class="slide">
+          <div class="content">
+            <div>10</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="left">left</button>
+    <button class="right">right</button>
+    <div class="carousel-container--small">
+      <div class="slides--small">
+        <div class="slide--small">
+          <div class="content">
+            <div>1</div>
+          </div>
+        </div>
+        <div class="slide--small">
+          <div class="content">
+            <div>2</div>
+          </div>
+        </div>
+        <div class="slide--small">
+          <div class="content">
+            <div>3</div>
+          </div>
+        </div>
+        <div class="slide--small">
+          <div class="content">
+            <div>4</div>
+          </div>
+        </div>
+        <div class="slide--small">
+          <div class="content">
+            <div>5</div>
+          </div>
+        </div>
+        <div class="slide--small">
+          <div class="content">
+            <div>6</div>
+          </div>
+        </div>
+        <div class="slide--small">
+          <div class="content">
+            <div>7</div>
+          </div>
+        </div>
+        <div class="slide--small">
+          <div class="content">
+            <div>8</div>
+          </div>
+        </div>
+        <div class="slide--small">
+          <div class="content">
+            <div>9</div>
+          </div>
+        </div>
+        <div class="slide--small">
+          <div class="content">
+            <div>10</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    window.addEventListener("DOMContentLoaded", (event) => {
+      const slides = document.querySelector(".slides");
+      const smallSlides = document.querySelector(".slides--small");
+
+      const slide = document.querySelectorAll(".slide");
+      const smallSlide = document.querySelectorAll(".slide--small");
+
+      const container = document.querySelector(".carousel-container");
+      const smallContainer = document.querySelector(
+        ".carousel-container--small"
+      );
+
+      const rightButton = document.querySelector(".right");
+      const leftButton = document.querySelector(".left");
+      const numOfSlide = slide.length;
+      let currSlide = 0;
+      const slidePerScreen = 1;
+      const smallSlidePerScreen = 4;
+
+      const makeSlide = () => {
+        // tính width của mỗi mainSlide, smallSlide
+        const slideWidth = Math.ceil(container.offsetWidth / slidePerScreen);
+        const smallSlideWidth = Math.ceil(
+          smallContainer.offsetWidth / smallSlidePerScreen
+        );
+
+        // xác định vùng chứa của mainSlide, smallSlide
+        slides.style.width = slideWidth * numOfSlide + "px";
+        smallSlides.style.width = smallSlideWidth * numOfSlide + "px";
+
+        // gán width cho mỗi mainSlide, smallSlide
+        slide.forEach((ele) => (ele.style.width = slideWidth + "px"));
+        smallSlide.forEach((ele) => (ele.style.width = smallSlideWidth + "px"));
+      };
+
+      rightButton.onclick = () => {
+        if (slidePerScreen + currSlide > numOfSlide - 1) return;
+
+        currSlide++;
+        // chuyển mainSlide
+        slides.style.marginLeft = slide[0].offsetWidth * -currSlide + "px";
+
+        if (smallSlidePerScreen + currSlide > numOfSlide) return;
+
+        // chuyển smallSlide
+        smallSlides.style.marginLeft =
+          smallSlide[0].offsetWidth * -currSlide + "px";
+      };
+
+      leftButton.onclick = () => {
+        if (currSlide === 0) return;
+
+        currSlide--;
+        // chuyển mainSlide
+        slides.style.marginLeft = slide[0].offsetWidth * -currSlide + "px";
+        
+        if (numOfSlide - currSlide < smallSlidePerScreen) return;
+
+        // chuyển smallSlide
+        smallSlides.style.marginLeft =
+          smallSlide[0].offsetWidth * -currSlide + "px";
+      };
+
+      makeSlide();
+    });
+  </script>
+</html>

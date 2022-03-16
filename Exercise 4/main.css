@@ -1,0 +1,43 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 30px;
+}
+
+.carousel-container,
+.carousel-container--small {
+    overflow: hidden;
+}
+
+.carousel-container--small .content {
+    height: 100px;
+}
+
+.slides, .slides--small {
+    font-size: 0;
+    transition: all .3s ease;
+}
+
+.slide, .slide--small {
+    display: inline-block;
+}
+
+.content {
+    height: 300px;
+    background-color: aqua;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel-container--small .content {
+    height: 100px;
+}
+
+.content div {
+    font-size: 30px;
+}

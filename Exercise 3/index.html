@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    const inputEx1 = [1, 2, 2, 3, 4, 4, 4, 5, 6];
+    const inputEx2 = [10, 20, 10, 20, 30, 20, 20, 50, 10, 30, 10];
+
+    const solutionEx1 = {
+      resolve1: (input) => {
+        const output = [];
+        input.forEach((element) => {
+          !output.includes(element) && output.push(element);
+        });
+        return output;
+      },
+      resolve2: (input) => {
+        return input.filter(
+          (element, index) => input[index] !== input[index + 1]
+        );
+      },
+      resolve3: (input) => {
+        const obj = {};
+        const createObj = (value) => {
+          obj[value] = value;
+        };
+
+        input.forEach((element) => createObj(element));
+        return Object.values(obj);
+      },
+    };
+
+    const solutionEx2 = {
+      resolve: (input) => {
+        input.sort();
+        let maxCount = 1,
+          currCount = 1;
+        const frequentArr = [];
+        for (let index = 1; index <= input.length; index++) {
+          if (input[index] === input[index - 1]) {
+            currCount++;
+          } else {
+            if (currCount > maxCount) {
+              maxCount = currCount;
+            }
+            frequentArr.push({
+              value: input[index - 1],
+              repetition: currCount,
+            });
+            currCount = 1;
+          }
+        }
+        return frequentArr.filter((element) => element.repetition === maxCount);
+      },
+    };
+
+    const isPositive = (x) => x > 0;
+    const isNegative = (x) => x < 0;
+    const isZero = (x) => x === 0;
+
+    const decision = (conditionFunc, trueOutCome, falseOutCome) => (context) =>
+      conditionFunc(context) ? trueOutCome : falseOutCome;
+
+    const decide = (context, binaryDecisionTree) => {
+      const result = binaryDecisionTree(context)
+
+      return typeof result === 'function' ? decide(context, result) : result
+    }
+
+    const binaryDecisionTree = decision(
+      isPositive,
+      "+",
+      decision(isNegative, "-", decision(isZero, 0, "?"))
+    );
+
+    const contextValues = [ "number", 1,	0, -1, Number.NaN ]
+
+    contextValues.forEach(element => console.log(decide(element, binaryDecisionTree)))
+  </script>
+</html>
