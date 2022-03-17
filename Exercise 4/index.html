@@ -156,18 +156,26 @@
         smallSlide.forEach((ele) => (ele.style.width = smallSlideWidth + "px"));
       };
 
+      const moveSlide = () => {
+        slides.style.marginLeft = slide[0].offsetWidth * -currSlide + "px";
+      };
+
+      const moveSmallSlide = () => {
+        smallSlides.style.marginLeft =
+          smallSlide[0].offsetWidth * -currSlide + "px";
+      };
+
       rightButton.onclick = () => {
         if (slidePerScreen + currSlide > numOfSlide - 1) return;
 
         currSlide++;
         // chuyển mainSlide
-        slides.style.marginLeft = slide[0].offsetWidth * -currSlide + "px";
+        moveSlide()
 
         if (smallSlidePerScreen + currSlide > numOfSlide) return;
 
         // chuyển smallSlide
-        smallSlides.style.marginLeft =
-          smallSlide[0].offsetWidth * -currSlide + "px";
+        moveSmallSlide()
       };
 
       leftButton.onclick = () => {
@@ -175,13 +183,12 @@
 
         currSlide--;
         // chuyển mainSlide
-        slides.style.marginLeft = slide[0].offsetWidth * -currSlide + "px";
-        
+        moveSlide()
+
         if (numOfSlide - currSlide < smallSlidePerScreen) return;
 
         // chuyển smallSlide
-        smallSlides.style.marginLeft =
-          smallSlide[0].offsetWidth * -currSlide + "px";
+        moveSmallSlide()
       };
 
       makeSlide();
