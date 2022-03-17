@@ -9,7 +9,7 @@
   <body></body>
   <script>
     const inputEx1 = [1, 2, 2, 3, 4, 4, 4, 5, 6];
-    const inputEx2 = [10, 20, 10, 20, 30, 20, 20, 50, 10, 30, 10];
+    const inputEx2 = [99, 10, 20, 10, 20, 30, 20, 20, 50, 10, 30, 10];
 
     const solutionEx1 = {
       resolve1: (input) => {
@@ -21,42 +21,28 @@
       },
       resolve2: (input) => {
         return input.filter(
-          (element, index) => input[index] !== input[index + 1]
+          (element, index, arr) => arr.indexOf(element) === index
         );
       },
       resolve3: (input) => {
-        const obj = {};
-
-        input.forEach((element) => obj[value] = value);
-        return Object.values(obj);
+        return input.reduce(
+          (arr, currValue) =>
+            arr.includes(currValue) ? arr : [...arr, currValue],
+          []
+        );
       },
     };
 
     const solutionEx2 = {
       resolve: (inputArr) => {
-        const input = [...inputArr]
-        input.sort();
+        const input = [...inputArr];
         let maxCount = 1,
           currCount = 1;
         const frequentArr = [];
-        for (let index = 1; index <= input.length; index++) {
-          if (input[index] === input[index - 1]) {
-            currCount++;
-          } else {
-            if (currCount > maxCount) {
-              maxCount = currCount;
-            }
-            frequentArr.push({
-              value: input[index - 1],
-              repetition: currCount,
-            });
-            currCount = 1;
-          }
+        for (let index = 0; index <= input.length; index++) {
+          if( frequentArr)
         }
-        return frequentArr.filter((element) => element.repetition === maxCount);
       },
     };
-
-    
   </script>
 </html>

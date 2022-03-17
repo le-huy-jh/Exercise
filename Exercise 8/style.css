@@ -1,0 +1,125 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --main-color: #15032a;
+  --hamburger-color: #140327;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+.hamburger-menu {
+  cursor: pointer;
+  padding: 20px;
+  background-color: var(--hamburger-color);
+  width: fit-content;
+}
+
+.hamburger-menu div,
+.hamburger-menu div::before,
+.hamburger-menu div::after {
+  width: 20px;
+  height: 3px;
+  border-radius: 1px;
+  background-color: #ffffff;
+}
+
+.hamburger-menu div {
+  position: relative;
+  margin: 6px 0;
+}
+
+.hamburger-menu div::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+}
+
+.hamburger-menu div::after {
+  content: "";
+  position: absolute;
+  top: -6px;
+}
+
+.hero {
+  position: relative;
+}
+
+.hero .left {
+  transform: rotate(-90deg);
+  transform-origin: bottom right;
+  position: absolute;
+  top: -60px;
+  left: calc(-60vh + 60px);
+  background-color: var(--main-color);
+  width: 60vh;
+  display: flex;
+  height: 60px;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero .left .text {
+  color: white;
+}
+
+.hero .left .text:nth-child(2) {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 40;
+  margin-left: 30px;
+}
+
+.hero .left .text:last-child {
+  font-size: 10px;
+  color: #b5bbc4;
+  font-weight: 400;
+  line-height: 40;
+  margin-left: 10px;
+}
+
+.hero .left img {
+  transform: rotate(90deg);
+}
+
+.hero .right {
+  position: relative;
+  left: 60px;
+  top: -60px;
+  background-image: url("./assets/images/bg.png");
+  height: calc(60vh + 60px);
+  background-size: cover;
+  background-repeat: no-repeat;
+  -webkit-filter: drop-shadow(
+    0 0 8px black
+  ); /* webkit only 
+  assuming the content is written in black */
+  filter: drop-shadow(0 0 8px black); /* FF~35 */
+  filter: drop-shadow(0 0 0 8px black);
+}
+
+@media (min-width: 768px) {
+  .hamburger-menu {
+    padding: 65px 46px 65px 48px;
+  }
+
+  .hamburger-menu div,
+  .hamburger-menu div::before,
+  .hamburger-menu div::after {
+    width: 34px;
+  }
+
+  .hero .left {
+    top: -60px;
+    left: calc(-60vh + 60px);
+    width: 60vh;
+    height: 80px;
+  }
+}
