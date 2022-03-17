@@ -1,0 +1,63 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+#toggle,
+#home,
+input,
+#dropdown {
+  position: fixed;
+  padding: 8px 20px;
+  font-size: 16px;
+  background: white;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#dropdown {
+  padding: 0;
+  bottom: 60px;
+  right: 10px;
+  max-height: 50vh;
+  overflow: scroll;
+  max-width: 30vh;
+  z-index: 1;
+}
+
+#dropdown p {
+  margin-left: 0px;
+  padding: 8px 8px;
+}
+
+#dropdown p:hover {
+  background-color: #8080802b;
+}
+
+#home {
+  top: 10px;
+  left: 10px;
+}
+
+#toggle {
+  left: 10px;
+  top: 60px;
+}
+#customPopup {
+  position: fixed;
+  width: 300px;
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+}
+#customGeocoder {
+  bottom: 10px;
+  right: 10px;
+}

@@ -5,83 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="./style.css" />
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
     <link
       href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css"
       rel="stylesheet"
     />
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
-      #map {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 100%;
-      }
-      button,
-      input,
-      #dropdown {
-        position: fixed;
-        padding: 8px 20px;
-        font-size: 16px;
-        background: white;
-        outline: none;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
 
-      #dropdown {
-        padding: 0;
-        bottom: 60px;
-        right: 10px;
-        max-height: 50vh;
-        overflow: scroll;
-        max-width: 30vh;
-        z-index: 1;
-      }
-
-      #dropdown p {
-        margin-left: 0px;
-        padding: 8px 8px;
-      }
-
-      #dropdown p:hover {
-        background-color: #8080802b;
-      }
-
-      button:nth-last-of-type(2) {
-        top: 10px;
-        left: 10px;
-      }
-
-      button:nth-last-of-type(1) {
-        right: 10px;
-        top: 10px;
-      }
-      #customPopup {
-        position: fixed;
-        width: 300px;
-        background-color: #ffffff;
-        padding: 10px;
-        border-radius: 5px;
-      }
-      #customGeocoder {
-        bottom: 10px;
-        right: 10px;
-      }
-    </style>
-  </head>
-  <body>
-    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+    <!-- Import Mapbox GL Draw -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js"></script>
     <link
       rel="stylesheet"
-      href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css"
+      href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css"
       type="text/css"
     />
+  </head>
+  <body>
     <!-- Load the `mapbox-gl-geocoder` plugin. -->
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
     <link
@@ -91,12 +30,14 @@
     />
     <div id="map"></div>
     <div id="customPopup"></div>
-    <button id="toggle">Toggle</button>
+    <!-- <button id="toggle">Toggle</button> -->
     <button id="home">Home</button>
+    <button id="toggle">Direction</button>
     <form onsubmit="event.preventDefault();submitHandler()">
       <input id="customGeocoder" type="text" placeholder="Search here" />
     </form>
     <div id="dropdown"></div>
+    <div id="directions"></div>
   </body>
   <script>
     const myPosition = {};
@@ -109,17 +50,77 @@
     let map, marker;
     mapboxgl.accessToken =
       "pk.eyJ1Ijoic2VubmluZSIsImEiOiJjbDB0aHljY2UwNnE5M2lwZXA3dG02amRoIn0.OReYhfaCWigJ7ae-eGqogg";
-    const directionControl = new MapboxDirections({
-      accessToken: mapboxgl.accessToken,
-    });
     const geocoder = new MapboxGeocoder({
       // Initialize the geocoder
       accessToken: mapboxgl.accessToken, // Set the access token
       mapboxgl: mapboxgl,
     });
 
+    const draw = new MapboxDraw({
+      // Instead of showing all the draw tools, show only the line string and delete tools
+      displayControlsDefault: false,
+      controls: {
+        line_string: true,
+        trash: true,
+      },
+      // Set the draw mode to draw LineStrings by default
+      defaultMode: "draw_line_string",
+      styles: [
+        // Set the line style for the user-input coordinates
+        {
+          id: "gl-draw-line",
+          type: "line",
+          filter: [
+            "all",
+            ["==", "$type", "LineString"],
+            ["!=", "mode", "static"],
+          ],
+          layout: {
+            "line-cap": "round",
+            "line-join": "round",
+          },
+          paint: {
+            "line-color": "#438EE4",
+            "line-dasharray": [0.2, 2],
+            "line-width": 2,
+            "line-opacity": 0.7,
+          },
+        },
+        // Style the vertex point halos
+        {
+          id: "gl-draw-polygon-and-line-vertex-halo-active",
+          type: "circle",
+          filter: [
+            "all",
+            ["==", "meta", "vertex"],
+            ["==", "$type", "Point"],
+            ["!=", "mode", "static"],
+          ],
+          paint: {
+            "circle-radius": 12,
+            "circle-color": "#FFF",
+          },
+        },
+        // Style the vertex points
+        {
+          id: "gl-draw-polygon-and-line-vertex-active",
+          type: "circle",
+          filter: [
+            "all",
+            ["==", "meta", "vertex"],
+            ["==", "$type", "Point"],
+            ["!=", "mode", "static"],
+          ],
+          paint: {
+            "circle-radius": 8,
+            "circle-color": "#438EE4",
+          },
+        },
+      ],
+    });
+
     const submitHandler = () => {
-      const inputValue = customGeocoder.value
+      const inputValue = customGeocoder.value;
       dropdown.innerHTML = "";
       fetch(
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${inputValue}.json?autocomplete=true&access_token=pk.eyJ1Ijoic2VubmluZSIsImEiOiJjbDB0aHljY2UwNnE5M2lwZXA3dG02amRoIn0.OReYhfaCWigJ7ae-eGqogg`
@@ -136,22 +137,23 @@
               position["longitude"] = ele.center[0];
               position["latitude"] = ele.center[1];
               createPopup();
-              customGeocoder.value = ''
-              dropdown.innerHTML= ''
+              customGeocoder.value = "";
+              dropdown.innerHTML = "";
             });
             node.appendChild(textNode);
             dropdown.appendChild(node);
           });
         })
         .catch(() => console.log("not found"));
-    }
+    };
 
     toggleBtn.onclick = () => {
       if (map) {
-        if (map.hasControl(directionControl)) {
-          map.removeControl(directionControl);
+        if (map.hasControl(draw)) {
+          map.removeControl(draw);
         } else {
-          map.addControl(directionControl, "bottom-left");
+          // Add the draw tool to the map
+          map.addControl(draw);
         }
       }
     };
@@ -181,6 +183,8 @@
     };
 
     const renderMap = () => {
+      console.log(position);
+
       map = new mapboxgl.Map({
         container: "map", // container ID
         style: "mapbox://styles/mapbox/streets-v11", // style URL
@@ -188,25 +192,124 @@
         zoom: 15, // starting zoom
       });
 
-      map.on("click", async (e) => {
-        position["latitude"] = e.lngLat.lat;
-        position["longitude"] = e.lngLat.lng;
+      map.on("click", async (event) => {
+        position["latitude"] = event.lngLat.lat;
+        position["longitude"] = event.lngLat.lng;
         marker.setLngLat([position["longitude"], position["latitude"]]);
         await setTimeout(() => {
           createPopup();
-        }, 300)
+        }, 300);
       });
 
       map.on("moveend", () => {
         calcPosCustomPopup();
-      })
+      });
 
       marker = new mapboxgl.Marker({ color: "red" })
         .setLngLat([position["longitude"], position["latitude"]])
         .addTo(map);
-      // map.addControl(geocoder, "bottom-right");
+
+      // Add create, update, or delete actions
+      map.on("draw.create", updateRoute);
+      map.on("draw.update", updateRoute);
+      map.on("draw.delete", removeRoute);
+
       createPopup();
     };
+
+    // Use the coordinates you just drew to make the Map Matching API request
+    function updateRoute() {
+      removeRoute(); // Overwrite any existing layers
+
+      const profile = "driving"; // Set the profile
+
+      // Get the coordinates
+      const data = draw.getAll();
+      const lastFeature = data.features.length - 1;
+      const coords = data.features[lastFeature].geometry.coordinates;
+      // Format the coordinates
+      const newCoords = coords.join(";");
+      // Set the radius for each coordinate pair to 25 meters
+      const radius = coords.map(() => 25);
+      getMatch(newCoords, radius, profile);
+    }
+
+    // Make a Map Matching request
+    async function getMatch(coordinates, radius, profile) {
+      // Separate the radiuses with semicolons
+      const radiuses = radius.join(";");
+      // Create the query
+      const query = await fetch(
+        `https://api.mapbox.com/matching/v5/mapbox/${profile}/${coordinates}?geometries=geojson&radiuses=${radiuses}&steps=true&access_token=${mapboxgl.accessToken}`,
+        { method: "GET" }
+      );
+      const response = await query.json();
+      // Handle errors
+      if (response.code !== "Ok") {
+        alert(
+          `${response.code} - ${response.message}.\n\nFor more information: https://docs.mapbox.com/api/navigation/map-matching/#map-matching-api-errors`
+        );
+        return;
+      }
+      const coords = response.matchings[0].geometry;
+      // Draw the route on the map
+      addRoute(coords);
+      getInstructions(response.matchings[0]);
+    }
+
+    function getInstructions(data) {
+      // Target the sidebar to add the instructions
+      const directions = document.getElementById("directions");
+      let tripDirections = "";
+      // Output the instructions for each step of each leg in the response object
+      for (const leg of data.legs) {
+        const steps = leg.steps;
+        for (const step of steps) {
+          tripDirections += `<li>${step.maneuver.instruction}</li>`;
+        }
+      }
+      directions.innerHTML = `<p><strong>Trip duration: ${Math.floor(
+        data.duration / 60
+      )} min.</strong></p><ol>${tripDirections}</ol>`;
+    }
+
+    // Draw the Map Matching route as a new layer on the map
+    function addRoute(coords) {
+      // If a route is already loaded, remove it
+      if (map.getSource("route")) {
+        map.removeLayer("route");
+        map.removeSource("route");
+      } else {
+        map.addLayer({
+          id: "route",
+          type: "line",
+          source: {
+            type: "geojson",
+            data: {
+              type: "Feature",
+              properties: {},
+              geometry: coords,
+            },
+          },
+          layout: {
+            "line-join": "round",
+            "line-cap": "round",
+          },
+          paint: {
+            "line-color": "#03AA46",
+            "line-width": 8,
+            "line-opacity": 0.8,
+          },
+        });
+      }
+    }
+
+    // If the user clicks the delete draw button, remove the layer if it exists
+    function removeRoute() {
+      if (!map.getSource("route")) return;
+      map.removeLayer("route");
+      map.removeSource("route");
+    }
 
     const success = (pos) => {
       position["latitude"] = pos.coords.latitude;
