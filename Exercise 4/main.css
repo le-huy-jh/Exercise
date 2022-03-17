@@ -6,6 +6,29 @@
 
 body {
     margin: 30px;
+    position: relative;
+}
+
+img {
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+}
+
+button {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    font-size: 50px;
+    color: white;
+    font-family: monospace;
+    position: absolute;
+    top: 50%;
+    cursor: pointer;
+}
+
+.right {
+    right: 0;
 }
 
 .carousel-container,
@@ -18,12 +41,18 @@ body {
 }
 
 .slides, .slides--small {
+    height: 400px;
     font-size: 0;
     transition: all .3s ease;
 }
 
+.carousel-container--small .slides--small {
+    height: 100px;
+}
+
 .slide, .slide--small {
     display: inline-block;
+    height: 100%;
 }
 
 .content {
@@ -40,4 +69,19 @@ body {
 
 .content div {
     font-size: 30px;
+}
+
+.dots {
+    margin: 8px auto;
+    display: flex;
+    justify-content: center;
+}
+
+.dots div {
+    width: 10px;
+    height: 10px;
+    background-color: grey;
+    border-radius: 50%;
+    margin: 0 3.5px;
+    cursor: pointer;
 }

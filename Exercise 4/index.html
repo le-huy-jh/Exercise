@@ -12,157 +12,83 @@
     <div class="carousel-container">
       <div class="slides">
         <div class="slide">
-          <div class="content">
-            <div>1</div>
-          </div>
+          <img src="https://jes.edu.vn/wp-content/uploads/2017/10/h%C3%ACnh-%E1%BA%A3nh.jpg" alt="">
         </div>
         <div class="slide">
-          <div class="content">
-            <div>2</div>
-          </div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png" alt="">
         </div>
         <div class="slide">
-          <div class="content">
-            <div>3</div>
-          </div>
+          <img src="https://www.w3schools.com/w3css/img_lights.jpg" alt="">
         </div>
         <div class="slide">
-          <div class="content">
-            <div>4</div>
-          </div>
+          <img src="https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&w=1000&q=80" alt="">
         </div>
         <div class="slide">
-          <div class="content">
-            <div>5</div>
-          </div>
+          <img src="https://www.w3schools.com/howto/img_forest.jpg" alt="">
         </div>
         <div class="slide">
-          <div class="content">
-            <div>6</div>
-          </div>
+          <img src="https://images.unsplash.com/photo-1612151855475-877969f4a6cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aGQlMjBpbWFnZXxlbnwwfHwwfHw%3D&w=1000&q=80" alt="">
         </div>
         <div class="slide">
-          <div class="content">
-            <div>7</div>
-          </div>
+          <img src="https://png.pngtree.com/illustrations/20190327/ourmid/pngtree-cure-starry-sky-night-sky-star-png-image_38228.jpg" alt="">
         </div>
         <div class="slide">
-          <div class="content">
-            <div>8</div>
-          </div>
+          <img src="https://media.istockphoto.com/photos/colorful-background-of-pastel-powder-explosionrainbow-color-dust-on-picture-id1180542165?k=20&m=1180542165&s=612x612&w=0&h=43hlhk8qdGYP4V-u3AAxD3kPDRIzHjMNWpr-VdBQ2Js=" alt="">
         </div>
         <div class="slide">
-          <div class="content">
-            <div>9</div>
-          </div>
+          <img src="https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg" alt="">
         </div>
         <div class="slide">
-          <div class="content">
-            <div>10</div>
-          </div>
+          <img src="https://h5p.org/sites/default/files/h5p/content/1209180/images/file-6113d5f8845dc.jpeg" alt="">
         </div>
       </div>
     </div>
-    <button class="left">left</button>
-    <button class="right">right</button>
-    <div class="carousel-container--small">
-      <div class="slides--small">
-        <div class="slide--small">
-          <div class="content">
-            <div>1</div>
-          </div>
-        </div>
-        <div class="slide--small">
-          <div class="content">
-            <div>2</div>
-          </div>
-        </div>
-        <div class="slide--small">
-          <div class="content">
-            <div>3</div>
-          </div>
-        </div>
-        <div class="slide--small">
-          <div class="content">
-            <div>4</div>
-          </div>
-        </div>
-        <div class="slide--small">
-          <div class="content">
-            <div>5</div>
-          </div>
-        </div>
-        <div class="slide--small">
-          <div class="content">
-            <div>6</div>
-          </div>
-        </div>
-        <div class="slide--small">
-          <div class="content">
-            <div>7</div>
-          </div>
-        </div>
-        <div class="slide--small">
-          <div class="content">
-            <div>8</div>
-          </div>
-        </div>
-        <div class="slide--small">
-          <div class="content">
-            <div>9</div>
-          </div>
-        </div>
-        <div class="slide--small">
-          <div class="content">
-            <div>10</div>
-          </div>
-        </div>
-      </div>
+    <button class="left"><</button>
+    <button class="right">></button>
+    <div class="dots">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
     </div>
   </body>
   <script>
     window.addEventListener("DOMContentLoaded", (event) => {
       const slides = document.querySelector(".slides");
-      const smallSlides = document.querySelector(".slides--small");
-
       const slide = document.querySelectorAll(".slide");
-      const smallSlide = document.querySelectorAll(".slide--small");
-
+      const dots = document.querySelectorAll('.dot')
       const container = document.querySelector(".carousel-container");
-      const smallContainer = document.querySelector(
-        ".carousel-container--small"
-      );
-
       const rightButton = document.querySelector(".right");
       const leftButton = document.querySelector(".left");
       const numOfSlide = slide.length;
       let currSlide = 0;
       const slidePerScreen = 1;
-      const smallSlidePerScreen = 4;
+
+      dots.forEach((dot, index) => {
+        dot.onclick = () => {
+          currSlide = index
+          moveSlide()
+        }
+      })
 
       const makeSlide = () => {
         // tính width của mỗi mainSlide, smallSlide
         const slideWidth = Math.ceil(container.offsetWidth / slidePerScreen);
-        const smallSlideWidth = Math.ceil(
-          smallContainer.offsetWidth / smallSlidePerScreen
-        );
-
         // xác định vùng chứa của mainSlide, smallSlide
         slides.style.width = slideWidth * numOfSlide + "px";
-        smallSlides.style.width = smallSlideWidth * numOfSlide + "px";
 
         // gán width cho mỗi mainSlide, smallSlide
         slide.forEach((ele) => (ele.style.width = slideWidth + "px"));
-        smallSlide.forEach((ele) => (ele.style.width = smallSlideWidth + "px"));
       };
 
       const moveSlide = () => {
         slides.style.marginLeft = slide[0].offsetWidth * -currSlide + "px";
-      };
-
-      const moveSmallSlide = () => {
-        smallSlides.style.marginLeft =
-          smallSlide[0].offsetWidth * -currSlide + "px";
       };
 
       rightButton.onclick = () => {
@@ -171,11 +97,6 @@
         currSlide++;
         // chuyển mainSlide
         moveSlide()
-
-        if (smallSlidePerScreen + currSlide > numOfSlide) return;
-
-        // chuyển smallSlide
-        moveSmallSlide()
       };
 
       leftButton.onclick = () => {
@@ -184,11 +105,6 @@
         currSlide--;
         // chuyển mainSlide
         moveSlide()
-
-        if (numOfSlide - currSlide < smallSlidePerScreen) return;
-
-        // chuyển smallSlide
-        moveSmallSlide()
       };
 
       makeSlide();

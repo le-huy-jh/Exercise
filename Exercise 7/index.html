@@ -45,7 +45,12 @@
       }
 
       #dropdown p {
-        margin-left: 5px;
+        margin-left: 0px;
+        padding: 8px 8px;
+      }
+
+      #dropdown p:hover {
+        background-color: #8080802b;
       }
 
       button:nth-last-of-type(2) {
@@ -88,7 +93,9 @@
     <div id="customPopup"></div>
     <button id="toggle">Toggle</button>
     <button id="home">Home</button>
-    <input id="customGeocoder" type="text" />
+    <form onsubmit="event.preventDefault();submitHandler()">
+      <input id="customGeocoder" type="text" placeholder="Search here" />
+    </form>
     <div id="dropdown"></div>
   </body>
   <script>
@@ -111,10 +118,11 @@
       mapboxgl: mapboxgl,
     });
 
-    customGeocoder.oninput = (e) => {
+    const submitHandler = () => {
+      const inputValue = customGeocoder.value
       dropdown.innerHTML = "";
       fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${e.target.value}.json?autocomplete=true&access_token=pk.eyJ1Ijoic2VubmluZSIsImEiOiJjbDB0aHljY2UwNnE5M2lwZXA3dG02amRoIn0.OReYhfaCWigJ7ae-eGqogg`
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${inputValue}.json?autocomplete=true&access_token=pk.eyJ1Ijoic2VubmluZSIsImEiOiJjbDB0aHljY2UwNnE5M2lwZXA3dG02amRoIn0.OReYhfaCWigJ7ae-eGqogg`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -128,13 +136,15 @@
               position["longitude"] = ele.center[0];
               position["latitude"] = ele.center[1];
               createPopup();
+              customGeocoder.value = ''
+              dropdown.innerHTML= ''
             });
             node.appendChild(textNode);
             dropdown.appendChild(node);
           });
         })
         .catch(() => console.log("not found"));
-    };
+    }
 
     toggleBtn.onclick = () => {
       if (map) {
@@ -178,16 +188,18 @@
         zoom: 15, // starting zoom
       });
 
-      map.on("click", (e) => {
+      map.on("click", async (e) => {
         position["latitude"] = e.lngLat.lat;
         position["longitude"] = e.lngLat.lng;
-        createPopup();
         marker.setLngLat([position["longitude"], position["latitude"]]);
+        await setTimeout(() => {
+          createPopup();
+        }, 300)
       });
 
-      map.on("drag", () => {
+      map.on("moveend", () => {
         calcPosCustomPopup();
-      });
+      })
 
       marker = new mapboxgl.Marker({ color: "red" })
         .setLngLat([position["longitude"], position["latitude"]])

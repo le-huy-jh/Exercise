@@ -35,14 +35,26 @@
 
     const solutionEx2 = {
       resolve: (inputArr) => {
-        const input = [...inputArr];
-        let maxCount = 1,
-          currCount = 1;
-        const frequentArr = [];
-        for (let index = 0; index <= input.length; index++) {
-          if( frequentArr)
+        let countMax = 1;
+        const result = []
+        const frequentArr = new Map();
+        for (let index = 0; index < inputArr.length; index++) {
+          if (frequentArr.has(inputArr[index])) {
+            frequentArr.get(inputArr[index]).count++;
+            if (frequentArr.get(inputArr[index]).count > countMax)
+              countMax = frequentArr.get(inputArr[index]).count;
+          } else {
+            frequentArr.set(inputArr[index], { count: 1 });
+          }
         }
+        frequentArr.forEach((value, key) => {
+          if(value.count === countMax) {
+            result.push(key)
+          }
+        })
+        return result
       },
     };
+
   </script>
 </html>

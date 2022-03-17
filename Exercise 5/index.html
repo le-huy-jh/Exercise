@@ -6,95 +6,130 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <body></body>
+  <body>
+    <h1></h1>
+    <h3></h3>
+    <input type="text" />
+    <button>submit</button>
+  </body>
   <script>
-    function ask(question) {
-      if (!question) return;
-      var answer = prompt(
-        question.question +
-          "\n" +
-          question.answers.map(({ answer }, i) => "\n" + i + " " + answer)
-      );
-      
-      if (answer in question.answers) {
-        if (question.answers[answer].comment) {
-          alert(question.answers[answer].comment);
-          return;
-        }
-        ask(question.answers[answer]);
-      }
-    }
+    const questionDisplay = document.querySelector("h1");
+    const answerDisplay = document.querySelector("h3");
+    const input = document.querySelector("input");
+    const submitBtn = document.querySelector('button');
 
-    var tree = {
+    const decisionTree = {
+      age: {
         question:
           "First of all, are you aged between 18 and 39 and a UK resident?",
         answers: [
-          {
-            answer: "Yes",
-            question:
-              "Great! Next, how are you planning to use your Lifetime ISA?",
-            answers: [
-              {
-                answer: "I'm buying my first (house)",
-                question:
-                  "Is your first home going to cost less than £450,000?",
-                answers: [
-                  {
-                    answer: "Yes",
-                    question:
-                      "And lastly, are you planning on buying your first home within the next five years?",
-                    answers: [
-                      {
-                        answer: "Yes",
-                        comment:
-                          "It looks like you could be eligible for a Lifetime ISA.",
-                      },
-                      {
-                        answer: "No",
-                        comment:
-                          "It looks like you could be eligible for a Lifetime ISA.",
-                      },
-                    ],
-                  },
-                  {
-                    answer: "No",
-                    comment:
-                      "Based on the current government rules, Lifetime ISAs can be used to purchase homes costing £450,000 or less.",
-                  },
-                ],
-              },
-              {
-                answer: "I'm saving for my (...)",
-                question: "What is your employment status?",
-                answers: [
-                  {
-                    answer: "Employed",
-                    comment:
-                      "It looks like you could be eligible for a Lifetime ISA.",
-                  },
-                  {
-                    answer: "Self Employed",
-                    comment:
-                      "It looks like you could be eligible for a Lifetime ISA.",
-                  },
-                  {
-                    answer: "Not Employed",
-                    comment:
-                      "It looks like you could be eligible for a Lifetime ISA.",
-                  },
-                ],
-              },
-            ],
-          },
           {
             answer: "No",
             comment:
               "Our Lifetime ISAs are only available to UK residents aged between 18 and 39.",
           },
+          {
+            answer: "Yes",
+            nextQuestion: "plan",
+          },
         ],
       },
-      question = tree;
+      plan: {
+        question: "Great! Next, how are you planning to use your Lifetime ISA?",
+        answers: [
+          {
+            answer: "I'm buying my house",
+            nextQuestion: "price",
+          },
+          {
+            answer: "I'm buying my car",
+            nextQuestion: "brand",
+          },
+        ],
+      },
+      price: {
+        question: "Is your first home going to cost less than £450,000?",
+        answers: [
+          { answer: "No", comment: "Cool!" },
+          {
+            answer: "Yes",
+            nextQuestion: "place",
+          },
+        ],
+      },
+      brand: {
+        question: "Which's brand?",
+        answers: [
+          {
+            answer: "Mercedes",
+            comment: "Awesome",
+          },
+          {
+            answer: "Tesla",
+            nextQuestion: "model",
+          },
+        ],
+      },
+      place: {
+        question: "What is the address?",
+        answers: [
+          {
+            answer: "Near Sunshine restaurant",
+            comment: "Oh",
+          },
+          {
+            answer: "Near Khalim tower",
+            comment: "busstop",
+          },
+        ],
+      },
+      bustop: {
+        question: "Is it near busstop",
+        answers: [
+          {
+            answer: "Yes",
+            comment: "Cool",
+          },
+          {
+            answer: "No",
+            comment: "So bad",
+          },
+        ],
+      },
+      model: {
+        question: "What is the model?",
+        answers: [
+          { answer: "S", comment: "Model S is very good." },
+          { answer: "3", comment: "Model 3 is very good." },
+        ],
+      },
+    };
+    
+    let currentNode = 'age'
 
-    ask(question);
+    submitBtn.onclick = () => {
+      const userAnswer = input.value
+      const answerArr = decisionTree[currentNode].answers
+      for(let index = 0; index < answerArr.length; index++) {
+        if(answerArr[index].answer === userAnswer) {
+          if("comment" in answerArr[index]) {
+            questionDisplay.innerText = answerArr[index].comment
+            answerDisplay.innerText = '' 
+            return
+          }
+          currentNode = answerArr[index].nextQuestion
+          ask(currentNode)
+        }
+      }
+    }
+
+    const ask = (initial) => {
+      questionDisplay.innerText = decisionTree[initial].question;
+      answerDisplay.innerText = decisionTree[initial].answers.map(
+        ({ answer }) => answer
+      );
+    };
+
+    ask(currentNode);
   </script>
 </html>
