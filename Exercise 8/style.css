@@ -74,7 +74,7 @@ body {
   font-size: 12px;
   font-weight: 400;
   line-height: 40;
-  margin-left: 30px;
+  margin-left: 70px;
 }
 
 .hero .left .text:last-child {
@@ -91,6 +91,7 @@ body {
 
 .hero .right {
   position: relative;
+  width: calc(100vw - 60px);
   left: 60px;
   top: -60px;
   background-image: url("./assets/images/bg.png");
@@ -103,6 +104,34 @@ body {
   assuming the content is written in black */
   filter: drop-shadow(0 0 8px black); /* FF~35 */
   filter: drop-shadow(0 0 0 8px black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero .right .hero-box {
+  color: #ffffff;
+  width: 90%;
+}
+
+.hero .right .hero-box h1 {
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 50px;
+}
+
+.hero .right .hero-box h4 {
+  margin-top: 15px;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 25px;
+}
+
+.hero .right .hero-box div {
+  margin-top: 5px;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 25px;
 }
 
 @media (min-width: 768px) {
@@ -117,9 +146,50 @@ body {
   }
 
   .hero .left {
-    top: -60px;
-    left: calc(-60vh + 60px);
-    width: 60vh;
+    top: -80px;
+    left: calc(-100vh + 80px);
+    width: 100vh;
     height: 80px;
+  }
+
+  .hero .right {
+    top: calc(-145px - 60px);
+    z-index: -1;
+    height: calc(100vh + 145px + 60px);
+  }
+
+  .hero .right .hero-box {
+    color: #ffffff;
+    width: 80%;
+  }
+
+  .hero .right .hero-box h1 {
+    font-size: 132px;
+    line-height: 102px;
+  }
+  
+  .hero .right .hero-box h4 {
+    margin-top: 30px;
+  }
+  
+  .hero .right .hero-box div {
+    margin-top: 15px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hamburger-menu {
+    padding: 45px 27px;
+  }
+
+  .hamburger-menu div,
+  .hamburger-menu div::before,
+  .hamburger-menu div::after {
+    width: 26px;
+  }
+
+  .hero .right .hero-box {
+    color: #ffffff;
+    width: 80%;
   }
 }

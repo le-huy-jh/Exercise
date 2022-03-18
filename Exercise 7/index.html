@@ -313,11 +313,14 @@
     const success = (pos) => {
       position["latitude"] = pos.coords.latitude;
       position["longitude"] = pos.coords.longitude;
+      console.log(position)
       renderMap();
     };
 
     const error = () => {
-      alert("ERROR");
+      position["latitude"] = 10.862592;
+      position["longitude"] = 106.758144;
+      renderMap();
     };
 
     const getLocation = () => {
