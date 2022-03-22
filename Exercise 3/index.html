@@ -34,27 +34,35 @@
     };
 
     const solutionEx2 = {
-      resolve: (inputArr) => {
-        let countMax = 1;
-        const result = []
-        const frequentArr = new Map();
-        for (let index = 0; index < inputArr.length; index++) {
-          if (frequentArr.has(inputArr[index])) {
-            frequentArr.get(inputArr[index]).count++;
-            if (frequentArr.get(inputArr[index]).count > countMax)
-              countMax = frequentArr.get(inputArr[index]).count;
+      finalResult: (inputArr) => {
+        const finalObj = inputArr.reduce((accumulator, currValue, index, arr) => {
+          if(!accumulator.countObj[currValue]) {
+            accumulator.countObj[currValue] = 1
           } else {
-            frequentArr.set(inputArr[index], { count: 1 });
+            accumulator.countObj[currValue]++
           }
-        }
-        frequentArr.forEach((value, key) => {
-          if(value.count === countMax) {
-            result.push(key)
+
+          if (accumulator.countObj[currValue] === accumulator.countMax) {
+            accumulator.result.push(currValue);
           }
+          if (accumulator.countObj[currValue] > accumulator.countMax) {
+            accumulator.result = [];
+            accumulator.result.push(currValue);
+            accumulator.countMax = accumulator.countObj[currValue];
+          }
+
+          return accumulator
+        }, {
+          countMax: 1,
+          result: [],
+          countObj: {}
         })
-        return result
-      },
+        return finalObj.result
+      }
     };
 
+
+
+    console.log(solutionEx2.finalResult(inputEx2));
   </script>
 </html>

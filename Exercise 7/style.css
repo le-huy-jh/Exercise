@@ -8,10 +8,12 @@ body {
   bottom: 0;
   width: 100%;
 }
-#toggle,
+#direction,
 #home,
 input,
-#dropdown {
+#dropdown,
+#toDropdown,
+#fromDropdown {
   position: fixed;
   padding: 8px 20px;
   font-size: 16px;
@@ -24,15 +26,35 @@ input,
 
 #dropdown {
   padding: 0;
-  bottom: 60px;
-  right: 10px;
-  max-height: 50vh;
+  top: 90px;
+  left: 10px;
   overflow: scroll;
-  max-width: 30vh;
+  width: 38vh;
   z-index: 1;
+  overflow: auto;
 }
 
-#dropdown p {
+#toDropdown {
+  right: 10px;
+  top: 130px;
+  width: 38vh;
+  z-index: 1;
+  overflow: auto;
+  padding: 0;
+}
+
+#fromDropdown {
+  right: 10px;
+  top: 90px;
+  width: 38vh;
+  z-index: 1;
+  overflow: auto;
+  padding: 0;
+}
+
+#dropdown p,
+#toDropdown p,
+#fromDropdown p {
   margin-left: 0px;
   padding: 8px 8px;
 }
@@ -46,9 +68,10 @@ input,
   left: 10px;
 }
 
-#toggle {
-  left: 10px;
-  top: 60px;
+#direction {
+  right: 10px;
+  top: 10px;
+  left: auto;
 }
 #customPopup {
   position: fixed;
@@ -57,7 +80,31 @@ input,
   padding: 10px;
   border-radius: 5px;
 }
-#customGeocoder {
-  bottom: 10px;
+#searchInput {
+  top: 50px;
+  left: 10px;
+}
+
+#fromInput {
   right: 10px;
+  top: 50px;
+  display: none;
+}
+
+#toInput {
+  right: 10px;
+  top: 90px;
+  display: none;
+}
+
+#instructions {
+  position: absolute;
+  margin: 20px;
+  width: 25%;
+  top: 0;
+  bottom: 20%;
+  padding: 20px;
+  background-color: #fff;
+  overflow-y: scroll;
+  font-family: sans-serif;
 }

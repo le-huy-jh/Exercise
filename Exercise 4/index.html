@@ -10,104 +10,107 @@
   <body>
     <h1>Carousel</h1>
     <div class="carousel-container">
-      <div class="slides">
-        <div class="slide">
-          <img src="https://jes.edu.vn/wp-content/uploads/2017/10/h%C3%ACnh-%E1%BA%A3nh.jpg" alt="">
-        </div>
-        <div class="slide">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png" alt="">
-        </div>
-        <div class="slide">
-          <img src="https://www.w3schools.com/w3css/img_lights.jpg" alt="">
-        </div>
-        <div class="slide">
-          <img src="https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&w=1000&q=80" alt="">
-        </div>
-        <div class="slide">
-          <img src="https://www.w3schools.com/howto/img_forest.jpg" alt="">
-        </div>
-        <div class="slide">
-          <img src="https://images.unsplash.com/photo-1612151855475-877969f4a6cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aGQlMjBpbWFnZXxlbnwwfHwwfHw%3D&w=1000&q=80" alt="">
-        </div>
-        <div class="slide">
-          <img src="https://png.pngtree.com/illustrations/20190327/ourmid/pngtree-cure-starry-sky-night-sky-star-png-image_38228.jpg" alt="">
-        </div>
-        <div class="slide">
-          <img src="https://media.istockphoto.com/photos/colorful-background-of-pastel-powder-explosionrainbow-color-dust-on-picture-id1180542165?k=20&m=1180542165&s=612x612&w=0&h=43hlhk8qdGYP4V-u3AAxD3kPDRIzHjMNWpr-VdBQ2Js=" alt="">
-        </div>
-        <div class="slide">
-          <img src="https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg" alt="">
-        </div>
-        <div class="slide">
-          <img src="https://h5p.org/sites/default/files/h5p/content/1209180/images/file-6113d5f8845dc.jpeg" alt="">
-        </div>
-      </div>
+      <div class="slides"></div>
     </div>
     <button class="left"><</button>
     <button class="right">></button>
-    <div class="dots">
-      <div class="dot"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
-    </div>
+    <div class="dots"></div>
   </body>
   <script>
-    window.addEventListener("DOMContentLoaded", (event) => {
-      const slides = document.querySelector(".slides");
-      const slide = document.querySelectorAll(".slide");
-      const dots = document.querySelectorAll('.dot')
-      const container = document.querySelector(".carousel-container");
-      const rightButton = document.querySelector(".right");
-      const leftButton = document.querySelector(".left");
-      const numOfSlide = slide.length;
-      let currSlide = 0;
-      const slidePerScreen = 1;
+    const imageArr = [
+      "https://jes.edu.vn/wp-content/uploads/2017/10/h%C3%ACnh-%E1%BA%A3nh.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png",
+      "https://www.w3schools.com/w3css/img_lights.jpg",
+      "https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&w=1000&q=80",
+      "https://www.w3schools.com/howto/img_forest.jpg",
+      "https://images.unsplash.com/photo-1612151855475-877969f4a6cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aGQlMjBpbWFnZXxlbnwwfHwwfHw%3D&w=1000&q=80",
+      "https://h5p.org/sites/default/files/h5p/content/1209180/images/file-6113d5f8845dc.jpeg",
+      "https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg",
+      "https://media.istockphoto.com/photos/colorful-background-of-pastel-powder-explosionrainbow-color-dust-on-picture-id1180542165?k=20&m=1180542165&s=612x612&w=0&h=43hlhk8qdGYP4V-u3AAxD3kPDRIzHjMNWpr-VdBQ2Js=",
+      "https://png.pngtree.com/illustrations/20190327/ourmid/pngtree-cure-starry-sky-night-sky-star-png-image_38228.jpg",
+    ];
 
-      dots.forEach((dot, index) => {
-        dot.onclick = () => {
-          currSlide = index
-          moveSlide()
-        }
-      })
+    const slideContainer = document.querySelector(".slides");
+    const dotConainer = document.querySelector(".dots");
 
-      const makeSlide = () => {
-        // tính width của mỗi mainSlide, smallSlide
-        const slideWidth = Math.ceil(container.offsetWidth / slidePerScreen);
-        // xác định vùng chứa của mainSlide, smallSlide
-        slides.style.width = slideWidth * numOfSlide + "px";
+    const createElements = () => {
+      imageArr.forEach((src) => {
+        //create dot
+        const dotElement = document.createElement("div");
+        dotElement.classList.add("dot");
+        dotConainer.appendChild(dotElement);
 
-        // gán width cho mỗi mainSlide, smallSlide
-        slide.forEach((ele) => (ele.style.width = slideWidth + "px"));
+        //create slide
+        const slideElement = document.createElement("div");
+        slideElement.classList.add("slide");
+
+        const imageElement = document.createElement("img");
+        imageElement.src = src;
+
+        slideElement.appendChild(imageElement);
+        slideContainer.appendChild(slideElement);
+      });
+    };
+
+    createElements();
+
+    const slide = document.querySelectorAll(".slide");
+    const dots = document.querySelectorAll(".dot");
+    const container = document.querySelector(".carousel-container");
+    const rightButton = document.querySelector(".right");
+    const leftButton = document.querySelector(".left");
+    const numOfSlide = slide.length;
+    let currSlide = 0;
+    const slidePerScreen = 1;
+
+    dots.forEach((dot, index) => {
+      dot.onclick = () => {
+        dots.forEach((dot) => {
+          dot.classList.remove("active");
+        });
+        dot.classList.add("active");
+        currSlide = index;
+        moveSlide();
       };
-
-      const moveSlide = () => {
-        slides.style.marginLeft = slide[0].offsetWidth * -currSlide + "px";
-      };
-
-      rightButton.onclick = () => {
-        if (slidePerScreen + currSlide > numOfSlide - 1) return;
-
-        currSlide++;
-        // chuyển mainSlide
-        moveSlide()
-      };
-
-      leftButton.onclick = () => {
-        if (currSlide === 0) return;
-
-        currSlide--;
-        // chuyển mainSlide
-        moveSlide()
-      };
-
-      makeSlide();
     });
+
+    const makeSlide = () => {
+      // tính width của mỗi mainSlide, smallSlide
+      const slideWidth = Math.ceil(container.offsetWidth / slidePerScreen);
+      // xác định vùng chứa của mainSlide, smallSlide
+      slideContainer.style.width = slideWidth * numOfSlide + "px";
+
+      // gán width cho mỗi mainSlide, smallSlide
+      slide.forEach((ele) => (ele.style.width = slideWidth + "px"));
+
+      dots[currSlide].classList.add("active");
+    };
+
+    const moveSlide = () => {
+      slideContainer.style.marginLeft =
+        slide[0].offsetWidth * -currSlide + "px";
+      dots.forEach((dot) => {
+        dot.classList.remove("active");
+      });
+      dots[currSlide].classList.add("active");
+    };
+
+    rightButton.onclick = () => {
+      if (slidePerScreen + currSlide > numOfSlide - 1) return;
+
+      currSlide++;
+      // chuyển mainSlide
+      moveSlide();
+    };
+
+    leftButton.onclick = () => {
+      if (currSlide === 0) return;
+
+      currSlide--;
+      // chuyển mainSlide
+      moveSlide();
+    };
+
+    makeSlide();
   </script>
 </html>

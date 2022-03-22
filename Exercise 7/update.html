@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link rel="stylesheet" href="./style.css" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+
+    <!-- Import Mapbox GL Draw -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css"
+      type="text/css"
+    />
+    <!-- Load the `mapbox-gl-geocoder` plugin. -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css"
+      type="text/css"
+    />
+  </head>
+  <body>
+    <div id="map"></div>
+    <button id="home">Home</button>
+    <button id="direction">Direction</button>
+    <form onsubmit="event.preventDefault();submitHandler()">
+      <input autocomplete="off" id="searchInput" type="text" placeholder="Search here" />
+    </form>
+    <form onsubmit="event.preventDefault();fromSubmitHandler()">
+      <input autocomplete="off" id="fromInput" type="text" placeholder="From" />
+    </form>
+    <form onsubmit="event.preventDefault();toSubmitHandler()">
+      <input autocomplete="off" id="toInput" type="text" placeholder="To" />
+    </form>
+    <div id="dropdown"></div>
+    <div id="fromDropdown"></div>
+    <div id="toDropdown"></div>
+    <!-- <div id="instructions"></div> -->
+  </body>
+  <script>
+    mapboxgl.accessToken =
+      "pk.eyJ1Ijoic2VubmluZSIsImEiOiJjbDB0aHljY2UwNnE5M2lwZXA3dG02amRoIn0.OReYhfaCWigJ7ae-eGqogg";
+    const position = {
+      lng: 106.758144,
+      lat: 10.862592,
+    };
+    const homeBtn = document.querySelector("#home");
+    const searchInput = document.querySelector("#searchInput");
+    const dropdown = document.querySelector("#dropdown");
+    const fromDropdown = document.querySelector("#fromDropdown");
+    const toDropdown = document.querySelector("#toDropdown");
+    const directionBtn = document.querySelector("#direction");
+    const fromInput = document.querySelector("#fromInput");
+    const toInput = document.querySelector("#toInput");
+
+    let marker,
+      popup,
+      map,
+      markerFrom,
+      markerTo,
+      toggle = true;
+
+    const direct = () => {
+      if (fromInput.value.trim() === "" || toInput.value.trim() === "") return;
+      getRoute();
+    };
+
+    const getRoute = async () => {
+      console.log("get route");
+      const fromLngLat = await markerFrom.getLngLat();
+      const toLngLat = await markerTo.getLngLat();
+      const res = await fetch(
+        `https://api.mapbox.com/directions/v5/mapbox/driving/${fromLngLat.lng},${fromLngLat.lat};${toLngLat.lng},${toLngLat.lat}?alternatives=true&geometries=geojson&language=en&overview=simplified&steps=true&access_token=${mapboxgl.accessToken}`
+      );
+      const json = await res.json();
+      const data = json.routes[0];
+      const route = data.geometry.coordinates;
+      const geojson = {
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "LineString",
+          coordinates: route,
+        },
+      };
+
+      // if the route already exists on the map, we'll reset it using setData
+      if (map.getSource("route")) {
+        console.log("upate draw");
+        map.getSource("route").setData(geojson);
+      } else {
+        console.log("draw new");
+        map.addLayer({
+          id: "route",
+          type: "line",
+          source: {
+            type: "geojson",
+            data: geojson,
+          },
+          layout: {
+            "line-join": "round",
+            "line-cap": "round",
+          },
+          paint: {
+            "line-color": "#3887be",
+            "line-width": 5,
+            "line-opacity": 0.75,
+          },
+        });
+      }
+
+      // get the sidebar and add the instructions
+      // const instructions = document.getElementById("instructions");
+      // const steps = data.legs[0].steps;
+
+      // let tripInstructions = "";
+      // for (const step of steps) {
+      //   tripInstructions += `<li>${step.maneuver.instruction}</li>`;
+      // }
+      // instructions.innerHTML = `<p><strong>Trip duration: ${Math.floor(
+      //   data.duration / 60
+      // )} min 🚴 </strong></p><ol>${tripInstructions}</ol>`;
+    };
+
+    directionBtn.onclick = () => {
+      if (toggle) {
+        marker.remove();
+        popup.remove();
+        fromInput.style.display = "block";
+        toInput.style.display = "block";
+        toggle = false;
+      } else {
+        marker = new mapboxgl.Marker({ color: "red" })
+          .setLngLat([position.lng, position.lat])
+          .addTo(map);
+        fromInput.style.display = "none";
+        toInput.style.display = "none";
+        fromInput.value = "";
+        toInput.value = "";
+        if (map.getLayer("route")) map.removeLayer("route");
+        if (map.getSource("route")) map.removeSource("route");
+        try {
+          markerFrom.remove();
+          markerTo.remove();
+        } catch {}
+        toggle = true;
+      }
+    };
+
+    homeBtn.onclick = () => {
+      toggle && getUserLocation();
+    };
+
+    const submitHandler = () => {
+      const inputValue = searchInput.value;
+      searchHandler(inputValue).then((data) => {
+        data.map((ele) => {
+          // add node list to dropdown box
+          const node = document.createElement("p");
+          const textNode = document.createTextNode(ele.place_name);
+          node.appendChild(textNode);
+          dropdown.appendChild(node);
+
+          // click event of location in dropdown box
+          node.addEventListener("click", (e) => {
+            map.setCenter(ele.center);
+            marker.setLngLat(ele.center);
+            searchInput.value = e.target.innerText;
+            dropdown.innerHTML = "";
+
+            position.lng = ele.center[0];
+            position.lat = ele.center[1];
+            marker.setLngLat([position.lng, position.lat]);
+            setPopup();
+          });
+        });
+      });
+    };
+
+    const fromSubmitHandler = () => {
+      const inputValue = fromInput.value;
+      fromDropdown.innerHTML = "";
+      searchHandler(inputValue).then((data) => {
+        data.map((ele) => {
+          // add node list to dropdown box
+          const node = document.createElement("p");
+          const textNode = document.createTextNode(ele.place_name);
+          node.appendChild(textNode);
+          fromDropdown.appendChild(node);
+
+          // click event of location in dropdown box
+          node.addEventListener("click", (e) => {
+            map.setCenter(ele.center);
+            try {
+              markerFrom.remove();
+            } catch {}
+            markerFrom = new mapboxgl.Marker({ color: "blue" })
+              .setLngLat(ele.center)
+              .addTo(map);
+            fromInput.value = e.target.innerText;
+            fromDropdown.innerHTML = "";
+            direct();
+          });
+        });
+      });
+    };
+
+    const toSubmitHandler = () => {
+      const inputValue = toInput.value;
+      toDropdown.innerHTML = "";
+      searchHandler(inputValue).then((data) => {
+        data.map((ele) => {
+          // add node list to dropdown box
+          const node = document.createElement("p");
+          const textNode = document.createTextNode(ele.place_name);
+          node.appendChild(textNode);
+          toDropdown.appendChild(node);
+
+          // click event of location in dropdown box
+          node.addEventListener("click", (e) => {
+            map.setCenter(ele.center);
+            try {
+              markerTo.remove();
+            } catch {}
+            markerTo = new mapboxgl.Marker({ color: "yellow" })
+              .setLngLat(ele.center)
+              .addTo(map);
+            toInput.value = e.target.innerText;
+            toDropdown.innerHTML = "";
+            direct();
+          });
+        });
+      });
+    };
+
+    const searchHandler = async (inputValue) => {
+      try {
+        const res = await fetch(
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${inputValue}.json?autocomplete=true&access_token=${mapboxgl.accessToken}`
+        );
+        const data = await res.json();
+        return data.features;
+      } catch {
+        console.log("something went wrong");
+      }
+    };
+
+    const getUserLocation = () => {
+      navigator.geolocation.getCurrentPosition(success, error, {
+        maximumAge: 60000,
+        timeout: 10000,
+        enableHighAccuracy: true,
+      });
+    };
+
+    const getLocationInfo = async (lng, lat) => {
+      try {
+        const res = await fetch(
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?types=poi&access_token=${mapboxgl.accessToken}`
+        );
+        const data = await res.json();
+        return data.features[0].place_name;
+      } catch {
+        return "No information";
+      }
+    };
+
+    const renderMap = () => {
+      map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/mapbox/streets-v11",
+        center: [position.lng, position.lat],
+        zoom: 15,
+      });
+
+      // add marker
+      marker = new mapboxgl.Marker({ color: "red" })
+        .setLngLat([position.lng, position.lat])
+        .addTo(map);
+
+      setPopup(position.lng, position.lat);
+
+      map.on("click", (event) => {
+        position.lng = event.lngLat.lng;
+        position.lat = event.lngLat.lat;
+        marker.setLngLat([position.lng, position.lat]);
+        if (toggle) {
+          setPopup(position.lng, position.lat);
+        }
+      });
+    };
+
+    const setPopup = (lng, lat) => {
+      getLocationInfo(lng, lat).then((location) => {
+        popup = new mapboxgl.Popup({ anchor: "top" })
+          .setLngLat([lng, lat])
+          .setText(location)
+          .addTo(map);
+      });
+    };
+
+    const success = (userPos) => {
+      position.lng = userPos.coords.longitude;
+      position.lat = userPos.coords.latitude;
+
+      renderMap();
+    };
+
+    const error = () => {
+      console.log("can not get location");
+      renderMap();
+    };
+
+    getUserLocation();
+  </script>
+</html>
