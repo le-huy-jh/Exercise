@@ -81,6 +81,17 @@ const container = document.querySelectorAll(".carousel-container");
 const nextBtn = document.querySelectorAll(".next");
 const previousBtn = document.querySelectorAll(".previous");
 
+const hamburgerBtn = document.querySelector(".hamburger-menu");
+const nav = document.querySelector("nav ul");
+
+hamburgerBtn.onclick = () => {
+  if (nav.classList.contains("active")) {
+    nav.classList.remove("active");
+  } else {
+    nav.classList.add("active");
+  }
+};
+
 let currSlide = 0,
   slideWidth = 0,
   slidePerScreen = 1;
