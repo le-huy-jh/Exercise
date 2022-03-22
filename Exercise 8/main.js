@@ -10,7 +10,7 @@ const slideArr = [
   {
     imageSrc: "./assets/images/Rectangle 6.jpg",
     favorNum: 382,
-    title: "BLISS TEXTURE",
+    title: "DECAYED",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     commentNum: 374,
@@ -43,7 +43,15 @@ const slideArr = [
 
 const secondSlideArr = [
   {
-    imageSrc: "./assets/images/Rectangle 6.jpg",
+    imageSrc: "./assets/images/image.jpg",
+    favorNum: 382,
+    title: "DECAYED",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    commentNum: 374,
+  },
+  {
+    imageSrc: "./assets/images/image (1).jpg",
     favorNum: 382,
     title: "BLISS TEXTURE",
     content:
@@ -51,9 +59,9 @@ const secondSlideArr = [
     commentNum: 374,
   },
   {
-    imageSrc: "./assets/images/Rectangle 6.jpg",
+    imageSrc: "./assets/images/image (2).jpg",
     favorNum: 382,
-    title: "BLISS TEXTURE",
+    title: "DECAYED",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     commentNum: 374,
@@ -61,23 +69,7 @@ const secondSlideArr = [
   {
     imageSrc: "./assets/images/Rectangle 6.jpg",
     favorNum: 382,
-    title: "BLISS TEXTURE",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    commentNum: 374,
-  },
-  {
-    imageSrc: "./assets/images/Rectangle 6.jpg",
-    favorNum: 382,
-    title: "BLISS TEXTURE",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    commentNum: 374,
-  },
-  {
-    imageSrc: "./assets/images/Rectangle 6.jpg",
-    favorNum: 382,
-    title: "BLISS TEXTURE",
+    title: "DECAYED",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     commentNum: 374,
@@ -89,9 +81,6 @@ const container = document.querySelectorAll(".carousel-container");
 const nextBtn = document.querySelectorAll(".next");
 const previousBtn = document.querySelectorAll(".previous");
 
-console.log(nextBtn)
-
-
 let currSlide = 0,
   slideWidth = 0,
   slidePerScreen = 1;
@@ -99,10 +88,12 @@ let currSlide = 0,
 let secondCurrSlide = 0;
 
 const createSlideItems = () => {
-  slideArr.forEach((slide) => {
+  slideArr.forEach((slide, index) => {
     const html = `<div class="slide">
     <div class="top">
-      <img src="${slide.imageSrc}" alt="" />
+      <img class="${index % 2 === 0 && "position"}" src="${
+      slide.imageSrc
+    }" alt="" />
       <div class="favor">
         <img src="./assets/images/heart.svg" alt="" />
         <div>${slide.favorNum}</div>
@@ -194,8 +185,9 @@ previousBtn[0].onclick = () => {
 };
 
 const moveSecondSlide = () => {
-  slideContainer[1].style.marginLeft = slideWidth * -secondCurrSlide + 40 + "px";
-}
+  slideContainer[1].style.marginLeft =
+    slideWidth * -secondCurrSlide + 40 + "px";
+};
 
 nextBtn[1].onclick = () => {
   if (slidePerScreen + secondCurrSlide > secondSlideArr.length - 1) return;
