@@ -447,6 +447,7 @@ nav li::before {
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
   top: 50%;
+  padding: 3px;
 }
 
 .second-hero .date {
@@ -707,9 +708,11 @@ nav li::before {
   }
 
   .second-hero .right .hero-box-first span {
-    font-size: 30px;
-    width: 139px;
+    font-size: 40px;
     border-width: 7px;
+    padding: 0;
+    width: 119px;
+    height: 119px;
   }
 
   .main-content {
@@ -829,19 +832,16 @@ nav li::before {
   .hero-box-first span {
     position: absolute;
     font-weight: 400;
-    font-size: 30px;
+    font-size: 40px;
     font-family: sans-serif;
     line-height: 102px;
     border: 7px solid var(--white-color);
     border-radius: 50%;
-    padding: 5px 10px;
+    padding: 0px 10px;
     left: 50%;
     transform: translateX(-50%) rotate(-10deg) translateY(-50%);
     top: 50%;
-  }
-
-  .second-hero .right .hero-box-first span {
-    width: 126px;
+    text-transform: lowercase;
   }
 
   .hero-box-second {
