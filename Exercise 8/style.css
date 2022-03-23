@@ -96,14 +96,14 @@ nav li:hover::before {
 }
 
 nav li::before {
-  content: '';
+  content: "";
   position: absolute;
   width: 0;
   left: 0;
   bottom: -5px;
   height: 4px;
   background-color: #6f0642;
-  transition: width .3s ease-in;
+  transition: width 0.3s ease-in;
 }
 
 .hero {
@@ -170,6 +170,13 @@ nav li::before {
   justify-content: center;
   flex-direction: column;
   color: var(--white-color);
+}
+
+.hero .right > img {
+  display: none;
+  position: absolute;
+  top: 45px;
+  right: 51px;
 }
 
 .hero .right .date {
@@ -261,7 +268,7 @@ nav li::before {
 }
 
 .carousel-container {
-  margin-top: 31px;
+  margin-top: 13px;
   overflow: auto;
 }
 
@@ -302,11 +309,6 @@ nav li::before {
 
 .slide .top {
   position: relative;
-}
-
-.position {
-  object-fit: none;
-  object-position: right;
 }
 
 .slide .top img {
@@ -1128,6 +1130,10 @@ nav li::before {
 
   nav ul {
     left: 80px;
+  }
+
+  .hero .right > img {
+    display: block;
   }
 }
 

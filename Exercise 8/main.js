@@ -1,6 +1,6 @@
 const slideArr = [
   {
-    imageSrc: "./assets/images/Rectangle 6.jpg",
+    imageSrc: "./assets/images/slide4.png",
     favorNum: 382,
     title: "BLISS TEXTURE",
     content:
@@ -8,7 +8,7 @@ const slideArr = [
     commentNum: 374,
   },
   {
-    imageSrc: "./assets/images/Rectangle 6.jpg",
+    imageSrc: "./assets/images/slide6.png",
     favorNum: 382,
     title: "DECAYED",
     content:
@@ -24,17 +24,9 @@ const slideArr = [
     commentNum: 374,
   },
   {
-    imageSrc: "./assets/images/Rectangle 6.jpg",
+    imageSrc: "./assets/images/slide5.png",
     favorNum: 382,
-    title: "BLISS TEXTURE",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    commentNum: 374,
-  },
-  {
-    imageSrc: "./assets/images/Rectangle 6.jpg",
-    favorNum: 382,
-    title: "BLISS TEXTURE",
+    title: "DECAYED",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     commentNum: 374,
@@ -43,15 +35,7 @@ const slideArr = [
 
 const secondSlideArr = [
   {
-    imageSrc: "./assets/images/image.jpg",
-    favorNum: 382,
-    title: "DECAYED",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    commentNum: 374,
-  },
-  {
-    imageSrc: "./assets/images/image (1).jpg",
+    imageSrc: "./assets/images/slide4.png",
     favorNum: 382,
     title: "BLISS TEXTURE",
     content:
@@ -59,7 +43,7 @@ const secondSlideArr = [
     commentNum: 374,
   },
   {
-    imageSrc: "./assets/images/image (2).jpg",
+    imageSrc: "./assets/images/slide3.png",
     favorNum: 382,
     title: "DECAYED",
     content:
@@ -67,7 +51,15 @@ const secondSlideArr = [
     commentNum: 374,
   },
   {
-    imageSrc: "./assets/images/Rectangle 6.jpg",
+    imageSrc: "./assets/images/slide2.png",
+    favorNum: 382,
+    title: "BLISS TEXTURE",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    commentNum: 374,
+  },
+  {
+    imageSrc: "./assets/images/slide1.png",
     favorNum: 382,
     title: "DECAYED",
     content:
@@ -102,9 +94,7 @@ const createSlideItems = () => {
   slideArr.forEach((slide, index) => {
     const html = `<div class="slide">
     <div class="top">
-      <img class="${index % 2 === 0 && "position"}" src="${
-      slide.imageSrc
-    }" alt="" />
+      <img src="${slide.imageSrc}" alt="" />
       <div class="favor">
         <img src="./assets/images/heart.svg" alt="" />
         <div>${slide.favorNum}</div>
