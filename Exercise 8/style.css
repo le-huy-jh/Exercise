@@ -35,7 +35,7 @@ body {
   background-color: var(--hamburger-color);
   width: fit-content;
   position: relative;
-  z-index: 1;
+  z-index: 5;
 }
 
 .hamburger-menu div,
@@ -66,21 +66,21 @@ body {
 
 nav ul {
   position: absolute;
-  left: 60px;
-  right: 0;
+  right: 100%;
   top: 0;
   background-color: var(--main-color);
   z-index: 2;
-  height: calc(70vh + 60px);
-  display: flex;
+  height: 100vh;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  display: none;
+  display: flex;
+  width: 100%;
+  transition: right .3s ease-in-out;
 }
 
 nav ul.active {
-  display: flex;
+  right: 0;
 }
 
 nav li {
@@ -167,18 +167,26 @@ nav li::before {
   color: var(--white-color);
 }
 
-.hero .right > img {
+.hero .right .letter {
   display: none;
   position: absolute;
   top: 45px;
   right: 51px;
 }
 
+.hero .right .right-arrow {
+  display: none;
+  position: absolute;
+  right: 66px;
+  bottom: 140px;
+  width: 7px;
+}
+
 .hero .right .date {
   display: none;
   position: absolute;
-  right: 5%;
-  bottom: 10%;
+  right: 66px;
+  bottom: 105px;
 }
 
 .hero-box-first {
@@ -221,7 +229,7 @@ nav li::before {
 .second-hero .dots {
   position: absolute;
   bottom: 40px;
-  right: 5%;
+  right: 45px;
 }
 
 .second-hero .dots {
@@ -234,8 +242,8 @@ nav li::before {
 .second-hero .dots div,
 .second-hero .dots div::before,
 .second-hero .dots div::after {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   background-color: var(--white-color);
   border-radius: 50%;
 }
@@ -384,8 +392,8 @@ nav li::before {
 }
 
 .slide .card-footer .dots div {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   background-color: var(--slide-title-color);
   border-radius: 50%;
 }
@@ -469,7 +477,7 @@ nav li::before {
 }
 
 .second-hero .hero-box-second h4 {
-  margin-top: 15px;
+  margin-bottom: 12px;
   font-weight: 700;
   font-size: 24px;
   line-height: 25px;
@@ -685,7 +693,9 @@ nav li::before {
 
   .slide .card-footer {
     height: 106px;
+    padding-left: 51px;
   }
+  
 
   .slide .card-footer .dots {
     width: 120px;
@@ -770,6 +780,10 @@ nav li::before {
     line-height: 25px;
   }
 
+  .second-hero .hero-box-second {
+    bottom: 123px;
+  }
+
   .footer {
     padding-left: 83px;
     padding-top: 75px;
@@ -791,11 +805,6 @@ nav li::before {
     margin-top: 70px;
   }
 
-  nav ul {
-    height: calc(100vh + 145px);
-    left: 128px;
-  }
-
   nav li {
     margin-bottom: 50px;
   }
@@ -810,6 +819,17 @@ nav li::before {
   .hamburger-menu div::before,
   .hamburger-menu div::after {
     width: 26px;
+  }
+
+  
+  .hero .dots {
+    left: 670px;
+    bottom: 148px;
+}
+
+
+  .second-hero .hero-box-second {
+    bottom: 73px;
   }
 
   .hero .right {
@@ -855,7 +875,7 @@ nav li::before {
   .hero-box-second {
     margin-left: 130px;
     position: absolute;
-    bottom: 10%;
+    bottom: 80px;
   }
 
   .carousel-container {
@@ -906,6 +926,7 @@ nav li::before {
 
   .slide .card-footer {
     height: 62px;
+    padding-left: 30px;
   }
 
   .slide .card-footer .dots {
@@ -1006,15 +1027,15 @@ nav li::before {
     display: block;
     width: 7px;
     position: absolute;
-    right: 100px;
-    bottom: 8%;
+    right: 60px;
+    bottom: 140px;
   }
 
   .second-hero .date {
     display: block;
     position: absolute;
-    right: 100px;
-    bottom: 5%;
+    right: 60px;
+    bottom: 106px;
   }
 
   .second-hero .left {
@@ -1043,7 +1064,7 @@ nav li::before {
   }
 
   .main-content .left {
-    margin-right: 20px;
+    margin-right: 25px;
   }
 
   .main-content .date,
@@ -1165,11 +1186,7 @@ nav li::before {
     left: -22px;
   }
 
-  nav ul {
-    left: 80px;
-  }
-
-  .hero .right > img {
+  .hero .right .letter, .hero .right .right-arrow {
     display: block;
   }
 
@@ -1184,13 +1201,13 @@ nav li::before {
 
 @media (min-width: 1200px) {
   .hero .dots {
-    right: 50%;
-    bottom: 18%;
+    left: 670px;
+    bottom: 148px;
   }
 
   .second-hero .dots {
-    right: 50%;
-    bottom: 100px;
+    left: 670px;
+    bottom: 146px;
     display: block;
   }
 
