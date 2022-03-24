@@ -87,10 +87,15 @@ hamburgerBtn.onclick = () => {
   }
 };
 
-let currSlide = 0,
-  slideWidth = 0,
+const currentSlide = {
+  first: 0,
+  second: 0,
+};
+
+let slideWidth = 0,
   slidePerScreen = 1,
-  secondCurrSlide = 0;
+  firstMousePosX = 0,
+  secondMousePosX = 0;
 
 const createSlideItems = () => {
   slideArr.forEach((slide) => {
@@ -170,36 +175,67 @@ const makeSlide = () => {
   slidePerScreen = Math.floor((window.innerWidth - 40) / slideWidth);
 };
 
-
 const moveSlidee = (container, currentSlide) => {
   container.style.marginLeft = slideWidth * -currentSlide + 40 + "px";
+};
+
+const goToNextSlide = (currentSlide, slideArray, slideContainer, index) => {
+  if (slidePerScreen + currentSlide[index] > slideArray.length - 1) return;
+  currentSlide[index]++
+  moveSlidee(slideContainer, currentSlide[index]);
+};
+
+const goToPreviousSlide = (currentSlide, slideContainer, index) => {
+  if(currentSlide[index] === 0) return;
+  currentSlide[index]--
+  moveSlidee(slideContainer, currentSlide[index]);
 }
 
 // first carousel controls
 nextBtn[0].onclick = () => {
-  if (slidePerScreen + currSlide > slideArr.length - 1) return;
-  currSlide++;
-  moveSlidee(slideContainer[0], currSlide)
-};
-
-previousBtn[0].onclick = () => {
-  if (currSlide === 0) return;
-  currSlide--;
-  moveSlidee(slideContainer[0], currSlide)
+  goToNextSlide(currentSlide, slideArr, slideContainer[0], 'first');
 };
 
 // second carousel controls
 nextBtn[1].onclick = () => {
-  if (slidePerScreen + secondCurrSlide > secondSlideArr.length - 1) return;
-  secondCurrSlide++;
-  moveSlidee(slideContainer[1], secondCurrSlide)
+  goToNextSlide(currentSlide, secondSlideArr, slideContainer[1], 'second');
+};
+
+previousBtn[0].onclick = () => {
+  goToPreviousSlide(currentSlide, slideContainer[0], 'first')
 };
 
 previousBtn[1].onclick = () => {
-  if (secondCurrSlide === 0) return;
-  secondCurrSlide--;
-  moveSlidee(slideContainer[1], secondCurrSlide)
+  goToPreviousSlide(currentSlide, slideContainer[1], 'second')
 };
+
+slideContainer[0].onmousedown = (e) => {
+  firstMousePosX = e.clientX;
+};
+
+slideContainer[1].onmousedown = (e) => {
+  secondMousePosX = e.clientX;
+};
+
+slideContainer[0].onmouseup = (e) => {
+  if (firstMousePosX > e.clientX) {
+    goToNextSlide(currentSlide, slideArr, slideContainer[0], 'first');
+  } else if (firstMousePosX < e.clientX) {
+    goToPreviousSlide(currentSlide, slideContainer[0], 'first')
+  }
+};
+
+slideContainer[1].onmouseup = (e) => {
+  if (secondMousePosX > e.clientX) {
+    goToNextSlide(currentSlide, slideArr, slideContainer[1], 'second');
+  } else if (secondMousePosX < e.clientX) {
+    goToPreviousSlide(currentSlide, slideContainer[1], 'second')
+  }
+};
+
+// if(window.innerWidth < 1024) {
+//   slideContainer.remove
+// }
 
 createSlideItems();
 makeSlide();

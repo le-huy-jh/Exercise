@@ -284,6 +284,7 @@ nav li::before {
   margin: 20px;
   display: inline-block;
   width: 310px;
+  pointer-events: none;
 }
 
 .slide .top::before {
