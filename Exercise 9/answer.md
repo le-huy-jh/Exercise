@@ -99,7 +99,7 @@ Q2: Create a new branch for develop feature/admin, we can continue fixing featur
 
 Q3: create branch A from production. Revert at production branch then merge (not auto merge) with branch A. 
  Branch feature/delete user still alives. We can merge normally, but because we use revert the history commit is longer
- Update solution: create branch from prod at commit before merging.
+ Update solution: use git reset hard to remove merged feature.
  
  After git reset, on master branch not show old commit. but on feature/delete-user that commits still alive.
  
