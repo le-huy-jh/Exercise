@@ -93,7 +93,7 @@ Use body to describe
 Max 50 characters for title and 72 characters for body
 
 ### Question
-Q1: branch master. We will intergrate step by step: feature to main, main to production. This will cause less bugs.
+Q1: create a new branch from production then cherry pick commit JKL.
 
 Q2: Dont do anything
 
