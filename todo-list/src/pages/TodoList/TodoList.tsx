@@ -2,54 +2,18 @@ import React, { useReducer, useState } from "react";
 import Header from "../../components/Header/Header";
 import InputContainer from "../../components/InputContainer/InputContainer";
 import "./TodoList.css";
-
-interface ITodoItem {
-  text: string;
-  id: number;
-  done: boolean;
-}
-
-interface IAction {
-  type: string;
-  payload?: ITodoItem | number;
-}
-
-const ADD_TODO = "ADD_TODO";
-const CHANGE_STATUS = "CHANGE_STATUS";
-
-const todoReducer = (state: ITodoItem[], action: IAction) => {
-  switch (action.type) {
-    case ADD_TODO:
-      if (
-        action.payload &&
-        typeof action.payload !== "number" &&
-        action.payload.text.trim() !== ""
-      ) {
-        return [...state, action.payload];
-      }
-    case CHANGE_STATUS:
-      const oldState = [...state];
-      if (action.payload && typeof action.payload === "number") {
-        const index = oldState.findIndex((ele) => ele.id === action.payload);
-        if (index !== -1) {
-          oldState[index].done = !oldState[index].done;
-        }
-      }
-      return oldState;
-    default:
-      return state;
-  }
-};
+import todoReducer from "../../utils/todoReducer";
+import { ADD_TODO, CHANGE_STATUS } from "../../utils/todoActions";
 
 const TodoList = () => {
   const [todoList, dispatch] = useReducer(todoReducer, []);
   const [inputTodo, setInputTodo] = useState<string>("");
 
-  const changeTextHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputTodo(event.target.value);
   };
 
-  const addTodoItemHandler = () => {
+  const handleAddTodoItem = () => {
     dispatch({
       type: ADD_TODO,
       payload: {
@@ -68,10 +32,10 @@ const TodoList = () => {
         <input
           type="text"
           placeholder="Search"
-          onChange={changeTextHandler}
+          onChange={handleChangeText}
           value={inputTodo}
         />
-        <button onClick={addTodoItemHandler}>Add</button>
+        <button onClick={handleAddTodoItem}>Add</button>
       </InputContainer>
       {todoList.length !== 0 && (
         <div className="status">
