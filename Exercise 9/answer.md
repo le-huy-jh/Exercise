@@ -1,34 +1,32 @@
 ### Git
-Git là một hệ thống quản lý phiên bản phân tán
+Git is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency.
 Git state: commited, staged, modified
-Lợi ích:
-Lưu lại những phiên bản khác nhau của mã nguồn dự án phần mềm. 
-Khôi phục lại các mã nguồn từ một phiên bản bất kỳ khác. 
-Hỗ trợ so sánh dễ dàng hơn giữa các phiên bản. 
-Phát hiện được những vị trí, những phần mà người khác đã chỉnh sửa làm phát sinh lỗi. 
-Khôi phục lại những tập tin đã bị mất đi. 
-Thử nghiệm và mở rộng các tính năng của dự án một cách dễ dàng mà không làm ảnh hưởng đến các phiên bản chính. 
+Advantage:
+Tracking
+Recover
 Remote
+Big community
+Feature Branch Workflow
+GIT provides users to work with both online and offline.
 
 ### Commit
 Commit là lưu vào csdl nội dung trong vùng staging, kèm thông tin mô tả của commit.
-Git lưu dữ liệu dưới dạng một loạt "ảnh chụp" (snapshot) của một tập hợp các file, có nghĩa là mỗi khi bạn commit (lưu lại) thì Git tiến hành chụp lại hệ thống các file thời điểm đó và lưu giữ một tham chiếu đến ảnh chụp dó, nhớ rằng các file không có thay đổi thì Git sẽ không lưu lại file đó lần nữa mà chỉ có một liên kết đến file đã lưu ở lần trước.
+Commit is saving content in staging area into database, attaching description. The git commit command captures a snapshot of the project's currently staged changes. However, if file not change, Git don't save again, instead of reference.
  ![](https://images.viblo.asia/67e40d3c-e395-4a78-a4fd-06be3fe8b6aa.png)
 Git commit -m “Message”
 
 
 ### A list of possible issues when a commit is broken: 
-
-Làm hỏng feature, commit không đúng với code 
+Break your feature
 
 ### Branch
-Branch: thực chất là con trỏ trỏ tới commit (con trỏ mặc định sẽ là master)
+Branch is a pointer refer to commit (default pointer is master)
 
-Issues: thường là conflict. Merge branch không review gây các lỗi rất khó phát hiện. 
+Issues is conflicts. Merge branch without review will make difficult to debug
 
-tạo branch: git branch crazy-experiment
+create branch: git branch crazy-experiment
 
-remove brach: git branch -d crazy-experiment (d là đã merge thi xoa được, chưa merge thì dùng D)
+remove brach: git branch -d crazy-experiment (d: can remove after merge, D: can remove without merger)
 
 switch: git checkout <ten branch>
 
@@ -37,68 +35,67 @@ push local branch to remote: git push -u origin <branch>
 
 ### Basic command:
 
-Tạo một kho chứa Git (git repo ở local)
+Create local repo
 $ git init
 
-Sao chép một kho chứa đã tồn tại
+Clone existing repo
 $ git clone https://github.com/user/repository.git
 
-Cập nhật thay đổi
+Update
 
 $ git add . (đưa vào staging area)
 
 $ git commit -m "Message"
 
-Cập nhật lên server
+Push to remote
 
 $ git remote add origin <remote_url>
 
 $ git push origin <name_branch>
 
-Gộp nhánh
+Merge branch
 
 $ git merge <new_branch>
 
-Pull từ remote repository, auto merge
+Pull remote repository, auto merge
 
 $ git pull
 
-Nạp dữ liệu nhưng không merge ngay
+Similar pull, but fetch not auto merge
 
 $ git fetch
 
 ### Conflict
-Xung đột có thể xảy ra khi hai hoặc nhiều người thay đổi cùng một file.
+Conflict can occur when people change the same file.
+Cases: merge code, pull code, rebase
 
-Trường hợp: tạo branch rồi code cả trên 2 branch sửa cùng 1 chỗ, có 1 branch master mình pull về code rồi có người khác cũng code trên master xong người đó push trước, đến khi mình pull về thì conflict.
-
-Giải quyết: chọn code trong branch merge
+Resolve: select suitable code
 
 ### Merge and Rebase
-Merge: gộp thay đổi của nhánh này vào nhánh khác. Xuất hiện 1 commit merger mới là điểm chung của 2 nhánh sử dụng git merge nếu muốn sắp xếp các commit theo mặc định. Làm commit history dài.
+Merge: merge branch to another branch. This cause a commit merger which connects 2 branch. Merge make commit history longer.
 
-Rebase: đưa nhánh này vào đầu nhánh kia. Nếu muốn history sạch (do tuyến tính), commit của branch mình là mới nhất
+Rebase: specializes in integrating changes from one branch onto another. We can use rebase if we want history clear, commit of my branch is the newest.
 
-Lựa chọn dùng merger vì sẽ không thay đổi nhánh, lịch sử commit giữ nguyên, dễ revert.
+Choose merge because it dont change branch, easy to revert, commit history ordered by time.
 
 ### Good message:
 
-Dùng câu mệnh lệnh
+Use the imperative mood in the subject line
 
-Có thể sử dụng mẫu câu If applied, this commit will để giúp commit rõ hơn
+Use template "If applied, this commit will" to make clearly
 
-In hoa chữ cái đầu
+Capitalize the subject line and each paragraph
 
-Truyền đạt mà ko cần xem mã nguồn
+Try to communicate without watching code
 
-Sử dụng body để mô tả chi tiết hơn, nên trả lời tại sao có commit này
+Use body to describe
 
-Tối đa 50 ký tự cho phần chủ đề và 72 ký tự mỗi dòng cho phần thân message.
+Max 50 characters for title and 72 characters for body
 
 ### Question
-Q1: branch master. Vì khi code feature xong tích hợp vào main ổn rồi từ main tích hợp production. Hạn chế conflict.
+Q1: branch master. We will intergrate step by step: feature to main, main to production. This will cause less bugs.
 
-Q2: không cần làm gì hết
+Q2: Dont do anything
 
-Q3: tạo branch A từ branch production. ở branch production revert lại commit chưa merge, xong rồi merge (không auto merge) với branch A
+Q3: create branch A from production. Revert at production branch then merge (not auto merge) with branch A
 
