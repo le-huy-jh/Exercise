@@ -93,7 +93,7 @@ Use body to describe
 Max 50 characters for title and 72 characters for body
 
 ### Question
-Q1: create a new branch from production then cherry pick commit JKL.
+Q1: create a new branch from production then cherry pick commit JKL. we can use cherry pick a range of commits (git cherry-pick beginning_commit~..ending_commit)
 
 Q2: Create a new branch for develop feature/admin, we can continue fixing feature/user. After fixing, we merge feature/user into feature/admin. This may causes conflicts.
 
