@@ -98,4 +98,13 @@ Q1: create a new branch from production then cherry pick commit JKL.
 Q2: Dont do anything
 
 Q3: create branch A from production. Revert at production branch then merge (not auto merge) with branch A
+ 
+### Case 1
+Create branch from feature/create-user
+ 
+### Case 2
+ Create branch feature/update-user from prod then merge with feature/create-user (turn off auto merge)
+
+### Case 3
+ Merge 2 branch feature/create-user, feature/update-user
 
