@@ -95,7 +95,7 @@ Max 50 characters for title and 72 characters for body
 ### Question
 Q1: create a new branch from production then cherry pick commit JKL.
 
-Q2: Dont do anything
+Q2: Create a new branch for develop feature/admin, we can continue fixing feature/user. After fixing, we merge feature/user into feature/admin. This may causes conflicts.
 
 Q3: create branch A from production. Revert at production branch then merge (not auto merge) with branch A
  
