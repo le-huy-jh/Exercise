@@ -11,58 +11,61 @@
     const inputEx1 = [1, 2, 2, 3, 4, 4, 4, 5, 6];
     const inputEx2 = [99, 10, 20, 10, 20, 30, 20, 20, 50, 10, 30, 10];
 
-    const solutionEx1 = {
-      resolve1: (input) => {
-        const output = [];
-        input.forEach((element) => {
-          !output.includes(element) && output.push(element);
-        });
-        return output;
-      },
-      resolve2: (input) => {
-        return input.filter(
-          (element, index, arr) => arr.indexOf(element) === index
-        );
-      },
-      resolve3: (input) => {
-        return input.reduce(
-          (arr, currValue) =>
-            arr.includes(currValue) ? arr : [...arr, currValue],
-          []
-        );
-      },
+    const removeDuplicate = (input) => {
+      return {
+        resolve1: () => {
+          const output = [];
+          input.forEach((element) => {
+            !output.includes(element) && output.push(element);
+          });
+          return output;
+        },
+        resolve2: () => {
+          return input.filter(
+            (element, index, arr) => arr.indexOf(element) === index
+          );
+        },
+        resolve3: () => {
+          return input.reduce(
+            (arr, currValue) =>
+              arr.includes(currValue) ? arr : [...arr, currValue],
+            []
+          );
+        },
+      };
     };
 
-    const solutionEx2 = {
-      finalResult: (inputArr) => {
-        const finalObj = inputArr.reduce((accumulator, currValue, index, arr) => {
-          if(!accumulator.countObj[currValue]) {
-            accumulator.countObj[currValue] = 1
-          } else {
-            accumulator.countObj[currValue]++
-          }
+    const getNumOfRepetition = (inputArr) => {
+      return {
+        finalResult: () => {
+          const finalObj = inputArr.reduce(
+            (accumulator, currValue, index, arr) => {
+              if (!accumulator.countObj[currValue]) {
+                accumulator.countObj[currValue] = 1;
+              } else {
+                accumulator.countObj[currValue]++;
+              }
 
-          if (accumulator.countObj[currValue] === accumulator.countMax) {
-            accumulator.result.push(currValue);
-          }
-          if (accumulator.countObj[currValue] > accumulator.countMax) {
-            accumulator.result = [];
-            accumulator.result.push(currValue);
-            accumulator.countMax = accumulator.countObj[currValue];
-          }
+              if (accumulator.countObj[currValue] === accumulator.countMax) {
+                accumulator.result.push(currValue);
+              }
+              if (accumulator.countObj[currValue] > accumulator.countMax) {
+                accumulator.result = [];
+                accumulator.result.push(currValue);
+                accumulator.countMax = accumulator.countObj[currValue];
+              }
 
-          return accumulator
-        }, {
-          countMax: 1,
-          result: [],
-          countObj: {}
-        })
-        return finalObj.result
-      }
+              return accumulator;
+            },
+            {
+              countMax: 1,
+              result: [],
+              countObj: {},
+            }
+          );
+          return finalObj.result;
+        },
+      };
     };
-
-
-
-    console.log(solutionEx2.finalResult(inputEx2));
   </script>
 </html>
