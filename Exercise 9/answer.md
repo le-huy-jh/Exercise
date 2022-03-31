@@ -93,9 +93,22 @@ Use body to describe
 Max 50 characters for title and 72 characters for body
 
 ### Question
-Q1: branch master. We will intergrate step by step: feature to main, main to production. This will cause less bugs.
+Q1: create a new branch from production then cherry pick commit JKL. we can use cherry pick a range of commits (git cherry-pick beginning_commit~..ending_commit)
 
-Q2: Dont do anything
+Q2: Create a new branch for develop feature/admin, we can continue fixing feature/user. After fixing, we merge feature/user into feature/admin. This may causes conflicts.
 
-Q3: create branch A from production. Revert at production branch then merge (not auto merge) with branch A
+Q3: create branch A from production. Revert at production branch then merge (not auto merge) with branch A. 
+ Branch feature/delete user still alives. We can merge normally, but because we use revert the history commit is longer
+ Update solution: use git reset hard to remove merged feature, then use cherry pick to get final commit.
+ 
+ After git reset, on master branch not show old commit. but on feature/delete-user that commits still alive.
+ 
+### Case 1
+Create branch from feature/create-user
+ 
+### Case 2
+ Create branch feature/update-user from prod then merge with feature/create-user (turn off auto merge)
+
+### Case 3
+ Merge 2 branch feature/create-user, feature/update-user
 
