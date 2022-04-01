@@ -11,6 +11,7 @@ import { Button } from "@material-ui/core";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import Carousel from "./Carousel/Carousel";
 import { getApi } from "../../utils/getApi";
+import { notify } from "../../utils/notify";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -45,15 +46,21 @@ export default function ContentModal({ children, mediaType, id }) {
   };
 
   const fetchData = async () => {
-    const { data } = await axios.get(getApi().getMovieInfo(mediaType, id));
-
-    setContent(data);
+    try {
+      const { data } = await axios.get(getApi().getMovieInfo(mediaType, id));
+      setContent(data);
+    } catch {
+      console.warn(notify("movie info").failedMessage);
+    }
   };
 
   const fetchVideo = async () => {
-    const { data } = await axios.get(getApi().getVideo(mediaType, id));
-
-    setVideo(data.results[0]?.key);
+    try {
+      const { data } = await axios.get(getApi().getVideo(mediaType, id));
+      setVideo(data.results[0]?.key);
+    } catch {
+      console.warn(notify("video").failedMessage);
+    }
   };
 
   useEffect(() => {

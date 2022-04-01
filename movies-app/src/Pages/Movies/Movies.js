@@ -5,6 +5,7 @@ import SingleContent from "../../components/SingleContent/SingleContent";
 import Genres from "../../components/Genres";
 import useGenres from "../../hooks/useGenre";
 import { getApi } from "../../utils/getApi";
+import { notify } from "../../utils/notify";
 
 const Movies = () => {
   const [page, setPage] = useState(1);
@@ -15,10 +16,14 @@ const Movies = () => {
   const genreforURL = useGenres(selectedGenres);
 
   const fetchMovies = async () => {
-    const { data } = await axios.get(getApi().getMovies(page, genreforURL));
+    try {
+      const { data } = await axios.get(getApi().getMovies(page, genreforURL));
 
-    setContent(data.results);
-    setNumOfPages(data.total_pages);
+      setContent(data.results);
+      setNumOfPages(data.total_pages);
+    } catch {
+      console.warn(notify("movies").failedMessage);
+    }
   };
 
   useEffect(() => {

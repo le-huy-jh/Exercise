@@ -10,6 +10,7 @@ import CustomPagination from "../../components/Pagination/CustomPagination";
 import SingleContent from "../../components/SingleContent/SingleContent";
 import { darkTheme } from "../../theme";
 import { getApi } from "../../utils/getApi";
+import { notify } from "../../utils/notify";
 
 const Search = () => {
   const [type, setType] = useState(0);
@@ -19,12 +20,17 @@ const Search = () => {
   const [numOfPages, setNumOfPages] = useState();
 
   const fetchSearch = async () => {
-    const { data } = await axios.get(
-      getApi().getSearch(type, searchText, page)
-    );
-
-    setContent(data.results);
-    setNumOfPages(data.total_pages);
+    try {
+      const { data } = await axios.get(
+        getApi().getSearch(type, searchText, page)
+      );
+  
+      setContent(data.results);
+      setNumOfPages(data.total_pages);
+    }
+    catch {
+      console.warn(notify('search results').failedMessage);
+    }
   };
 
   useEffect(() => {

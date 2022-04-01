@@ -5,6 +5,7 @@ import "react-alice-carousel/lib/alice-carousel.css";
 import { img_300, noPicture } from "../../../config/config";
 import { getApi } from "../../../utils/getApi";
 import "./Carousel.css";
+import { notify } from "../../../utils/notify";
 
 const handleDragStart = (e) => e.preventDefault();
 
@@ -36,8 +37,12 @@ const Carousel = ({ mediaType, id }) => {
   };
 
   const fetchCredits = async () => {
-    const { data } = await axios.get(getApi().getCredits(mediaType, id));
-    setCredits(data.cast);
+    try {
+      const { data } = await axios.get(getApi().getCredits(mediaType, id));
+      setCredits(data.cast);
+    } catch {
+      console.warn(notify("credits").failedMessage);
+    }
   };
 
   useEffect(() => {

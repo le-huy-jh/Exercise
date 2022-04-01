@@ -4,14 +4,19 @@ import SingleContent from "../../components/SingleContent/SingleContent";
 import "./Trending.css";
 import CustomPagination from "../../components/Pagination/CustomPagination";
 import { getApi } from "../../utils/getApi";
+import { notify } from "../../utils/notify";
 
 const Trending = () => {
   const [content, setContent] = useState([]);
   const [page, setPage] = useState(1);
 
   const fetchTrending = async () => {
-    const { data } = await axios.get(getApi().getTrending(page));
-    setContent(data.results);
+    try {
+      const { data } = await axios.get(getApi().getTrending(page));
+      setContent(data.results);
+    } catch {
+      console.warn(notify("trending movies").failedMessage);
+    }
   };
 
   useEffect(() => {
