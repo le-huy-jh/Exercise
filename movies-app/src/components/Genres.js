@@ -1,6 +1,8 @@
 import { Chip } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect } from "react";
+import { getApi } from "../utils/getApi";
+import { notify } from "../utils/notify";
 
 function Genres({
   type,
@@ -11,10 +13,12 @@ function Genres({
   setPage,
 }) {
   const fetchGenres = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/genre/${type}/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
-    );
-    setGenres(data.genres);
+    try {
+      const { data } = await axios.get(getApi().getGenres(type));
+      setGenres(data.genres);
+    } catch {
+      console.warn(notify("genres").failedMessage);
+    }
   };
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import { Badge } from "@material-ui/core";
 import React from "react";
-import { img_300, unavailable } from "../../config/config";
+import { img300, unavailable } from "../../config/config";
 import ContentModal from "../ContentModal/ContentModal";
 import "./SingleContent.css";
 
@@ -13,7 +13,7 @@ function SingleContent({ id, poster, title, date, mediaType, voteAverage }) {
       />
       <img
         className="poster"
-        src={poster ? `${img_300}/${poster}` : unavailable}
+        src={poster ? `${img300}/${poster}` : unavailable}
         alt="title"
       />
       <b className="title">{title}</b>

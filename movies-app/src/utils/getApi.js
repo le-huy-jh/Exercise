@@ -18,5 +18,6 @@ export const getApi = () => {
       `${baseUrl}/${mediaType}/${id}/videos?api_key=${apiKey}&language=en-US`,
     getMovieInfo: (mediaType, id) =>
       `${baseUrl}/${mediaType}/${id}?api_key=${apiKey}&language=en-US`,
+    getGenres: (type) => `${baseUrl}/genre/${type}/list?api_key=${apiKey}&language=en-US`
   };
 };

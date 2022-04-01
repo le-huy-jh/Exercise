@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-import { img_300, noPicture } from "../../../config/config";
+import { img300, noPicture } from "../../../config/config";
 import { getApi } from "../../../utils/getApi";
 import "./Carousel.css";
 import { notify } from "../../../utils/notify";
@@ -15,7 +15,7 @@ const Carousel = ({ mediaType, id }) => {
   const items = credits.map((c) => (
     <div className="carouselItem">
       <img
-        src={c.profile_path ? `${img_300}/${c.profile_path}` : noPicture}
+        src={c.profile_path ? `${img300}/${c.profile_path}` : noPicture}
         alt={c?.name}
         onDragStart={handleDragStart}
         className="carouselItem__img"

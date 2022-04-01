@@ -5,7 +5,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import axios from "axios";
 import { useEffect } from "react";
-import { img_500, unavailable } from "../../config/config";
+import { img500, unavailable } from "../../config/config";
 import "./ContentModal.css";
 import { Button } from "@material-ui/core";
 import YouTubeIcon from "@material-ui/icons/YouTube";
@@ -97,7 +97,7 @@ export default function ContentModal({ children, mediaType, id }) {
                 <img
                   src={
                     content.poster_path
-                      ? `${img_500}/${content.poster_path}`
+                      ? `${img500}/${content.poster_path}`
                       : unavailable
                   }
                   className="ContentModal__portrait"
@@ -106,7 +106,7 @@ export default function ContentModal({ children, mediaType, id }) {
                 <img
                   src={
                     content.poster_path
-                      ? `${img_500}/${content.poster_path}`
+                      ? `${img500}/${content.poster_path}`
                       : unavailable
                   }
                   className="ContentModal__landscape"
