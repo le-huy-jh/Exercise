@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import CustomPagination from "../../components/Pagination/CustomPagination";
 import SingleContent from "../../components/SingleContent/SingleContent";
 import Genres from "../../components/Genres";
-import useGenres from "../../components/hooks/useGenre";
+import useGenres from "../../hooks/useGenre";
 import { getApi } from "../../utils/getApi";
 
 const Movies = () => {
