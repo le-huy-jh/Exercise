@@ -10,6 +10,7 @@ import "./ContentModal.css";
 import { Button } from "@material-ui/core";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import Carousel from "./Carousel/Carousel";
+import { getApi } from "../../utils/getApi";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ContentModal({ children, media_type, id }) {
+export default function ContentModal({ children, mediaType, id }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [content, setContent] = useState();
@@ -44,18 +45,13 @@ export default function ContentModal({ children, media_type, id }) {
   };
 
   const fetchData = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/${media_type}/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
-    );
+    const { data } = await axios.get(getApi().getMovieInfo(mediaType, id));
 
     setContent(data);
-    // console.log(data);
   };
 
   const fetchVideo = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/${media_type}/${id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
-    );
+    const { data } = await axios.get(getApi().getVideo(mediaType, id));
 
     setVideo(data.results[0]?.key);
   };
@@ -126,7 +122,7 @@ export default function ContentModal({ children, media_type, id }) {
                     {content.overview}
                   </span>
                   <div>
-                    <Carousel media_type={media_type} id={id} />
+                    <Carousel mediaType={mediaType} id={id} />
                   </div>
                   <Button
                     variant="contained"

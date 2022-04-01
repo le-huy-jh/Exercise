@@ -1,8 +1,8 @@
 const useGenres = (selectedGenres) => {
-    if(selectedGenres.length < 1) return ""
+  if (selectedGenres.length < 1) return "";
 
-    const genresId = selectedGenres.map(g => g.id)
-    return genresId.join(',')
-}
+  const genresId = selectedGenres.map((g) => g.id);
+  return genresId.join(",");
+};
 
-export default useGenres
+export default useGenres;
