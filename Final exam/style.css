@@ -1,0 +1,93 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  position: relative;
+  height: 100vh;
+  background: #0052d4; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #6fb1fc,
+    #4364f7,
+    #0052d4
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #6fb1fc,
+    #4364f7,
+    #0052d4
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: var(--white-color);
+}
+
+:root {
+  --white-color: #ffffff;
+  --black-color: #000000;
+}
+
+.wrapper-timer {
+  text-align: center;
+}
+
+.timer {
+  font-size: 60px;
+  margin-top: 60px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.score {
+  font-size: 35px;
+  position: absolute;
+  right: 10%;
+  top: 20%;
+}
+
+.question {
+    margin-top: 80px;
+    font-size: 40px;
+    text-align: center;
+}
+
+.answer {
+    text-align: center;
+    margin: auto;
+    margin-top: 40px;
+    width: 50%;
+    font-size: 30px;
+}
+
+.answer input {
+    font-size: 30px;
+    border: none;
+    outline: none;
+    padding: 10px 20px;
+}
+
+.answer input[type="text"] {
+    display: block;
+    width: 100%;
+}
+
+.wrapper-buttons {
+    text-align: center;
+}
+
+.wrapper-buttons button {
+    border: none;
+    outline: none;
+    background-color: var(--white-color);
+    color: var(--black-color);
+    font-size: 20px;
+    padding: 10px 20px;
+    margin-left: 20px;
+    cursor: pointer;
+    margin-top: 40px;
+}
