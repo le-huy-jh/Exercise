@@ -20,9 +20,9 @@ const QUESTION_DATA = [
   },
   {
     type: SELECTED_RESPONSE,
-    question: "How many days are in a week?",
-    answers: ["12", "3", "4", "7"],
-    correct: ["4", "7"],
+    question: "Which is animal?",
+    answers: ["dog", "table", "turtle", "car"],
+    correct: ["dog", "turtle"],
   },
 ];
 
@@ -65,9 +65,11 @@ const isCorrectSelectedQuestion = (
   )
     return false;
 
-  answerSelected.forEach((answer) => {
-    if (!rightAnswer.includes(answer.value)) return false;
-  });
+  for (let index = 0; index < answerSelected.length; index++) {
+    if (!rightAnswer.includes(answerSelected[index].value)) {
+      return false;
+    }
+  }
 
   return true;
 };
@@ -79,8 +81,9 @@ const submitAnswer = (question, config = { increaseScore: 1 }) => {
 
   const answerSelected = document.querySelectorAll("input:checked");
 
-  if (isCorrectSelectedQuestion(answerSelected, question.correct))
+  if (isCorrectSelectedQuestion(answerSelected, question.correct)) {
     score.innerHTML = +score.innerHTML + config.increaseScore;
+  }
 };
 
 resetButton.onclick = () => {
@@ -101,9 +104,11 @@ const createQuestion = () => {
 const getAnswerType = (question) =>
   question.correct.length > 1 ? CHECKBOX_TYPE : RADIO_TYPE;
 
-const renderQuestion = () => {
+const renderQuestion = (config = { questionClass: "" }) => {
   const rndQuestionIndex = getRandomNum(QUESTION_DATA.length);
   const newQuestion = QUESTION_DATA[rndQuestionIndex];
+  if (config.questionClass !== "")
+    questionContainer.classList.add(config.className);
   questionContainer.innerHTML = newQuestion.question;
 
   submitButton.onclick = () => {
@@ -116,21 +121,37 @@ const renderQuestion = () => {
 
 const renderAnswer = (
   question,
-  config = { name: "answer", placeholder: "Type here", textType: TEXT_TYPE }
+  config = {
+    name: "answer",
+    placeholder: "Type here",
+    constructedResponseType: TEXT_TYPE,
+    constructedResponseInputClass: "",
+    selectedResponseInputClass: "",
+    selectedResponseLabelClass: "",
+  }
 ) => {
   let child;
+  const {
+    name,
+    placeholder,
+    constructedResponseType,
+    constructedResponseInputClass,
+    selectedResponseInputClass,
+    selectedResponseLabelClass,
+  } = config;
+
   if (question.type === SELECTED_RESPONSE) {
     const inputType = getAnswerType(question);
     child = question.answers
       .map(
         (
           answer
-        ) => `<input type="${inputType}" id="${answer}" name="${config.name}" value="${answer}" />
-    <label for="${answer}">${answer}</label><br />`
+        ) => `<input class="${selectedResponseInputClass}" type="${inputType}" id="${answer}" name="${name}" value="${answer}" />
+    <label class="${selectedResponseLabelClass}" for="${answer}">${answer}</label><br />`
       )
       .join("");
   } else {
-    child = `<input type="${config.textType}" placeholder="${config.placeholder}" />`;
+    child = `<input class="${constructedResponseInputClass}" type="${constructedResponseType}" placeholder="${placeholder}" />`;
   }
   answerContainer.innerHTML = child;
 };
