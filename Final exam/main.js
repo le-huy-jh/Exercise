@@ -1,20 +1,18 @@
 const SELECTED_RESPONSE = "SELECTED_RESPONSE";
 const CONSTRUCTED_RESPONSE = "CONSTRUCTED_RESPONSE";
 const DEFAULT_TIME = 1000;
+const CHECKBOX_TYPE = "checkbox";
+const RADIO_TYPE = "radio";
+const TEXT_TYPE = "text";
+const HARD_MODE = "hard";
+const EASY_MODE = "easy";
 
-const questionContainer = document.querySelector(".question");
-const answerContainer = document.querySelector(".answer");
-const score = document.querySelector(".score span");
-const submitButton = document.querySelector(".submit");
-const resetButton = document.querySelector(".reset");
-const timerContainer = document.querySelector(".timer");
-
-const questions = [
+const QUESTION_DATA = [
   {
     type: SELECTED_RESPONSE,
     question: "How Long Is One Day on Other Planets?",
     answers: ["12", "24", "36", "55"],
-    correct: "24",
+    correct: ["24"],
   },
   {
     type: CONSTRUCTED_RESPONSE,
@@ -28,43 +26,12 @@ const questions = [
   },
 ];
 
-const getRandomNum = (max, min = 0) =>
-  Math.floor(Math.random() * (max - min)) + min;
-
-const submitAnswer = (question, config = { increaseScore: 1 }) => {
-  timer.stop();
-
-  if (question.type === CONSTRUCTED_RESPONSE) return;
-
-  const answerSelected = document.querySelectorAll("input:checked");
-  if (
-    isCheckbox(question) &&
-    answerSelected.length === question.correct.length
-  ) {
-    answerSelected.forEach((answer) => {
-      if (!question.correct.includes(answer.value)) {
-        return;
-      }
-    });
-  } else {
-    if (!question.correct.includes(answerSelected[0].value)) return;
-  }
-  score.innerHTML = +score.innerHTML + config.increaseScore;
-};
-
-resetButton.onclick = () => {
-  createQuestion();
-};
-
-timerContainer.onclick = () => {
-  createQuestion();
-};
-
-const createQuestion = () => {
-  timer.stop();
-  timer.start();
-  renderQuestion();
-};
+const questionContainer = document.querySelector(".question");
+const answerContainer = document.querySelector(".answer");
+const score = document.querySelector(".score span");
+const submitButton = document.querySelector(".submit");
+const resetButton = document.querySelector(".reset");
+const timerContainer = document.querySelector(".timer");
 
 const makeTimer = (time = DEFAULT_TIME) => {
   let intervalId;
@@ -81,19 +48,80 @@ const makeTimer = (time = DEFAULT_TIME) => {
   };
 };
 
-const isCheckbox = (question) => Array.isArray(question.correct);
+const timer = makeTimer();
 
-const renderQuestion = (
-  config = { name: "answer", placeholder: "Type here" }
+const getRandomNum = (max, min = 0) =>
+  Math.floor(Math.random() * (max - min)) + min;
+
+const isCorrectSelectedQuestion = (
+  answerSelected,
+  rightAnswer,
+  config = { mode: HARD_MODE }
 ) => {
-  let child;
-  const rndQuestionIndex = getRandomNum(questions.length);
-  const newQuestion = questions[rndQuestionIndex];
+  if (
+    config.mode === HARD_MODE &&
+    (answerSelected.length < rightAnswer.length ||
+      answerSelected.length > rightAnswer.length)
+  )
+    return false;
+
+  answerSelected.forEach((answer) => {
+    if (!rightAnswer.includes(answer.value)) return false;
+  });
+
+  return true;
+};
+
+const submitAnswer = (question, config = { increaseScore: 1 }) => {
+  timer.stop();
+
+  if (question.type === CONSTRUCTED_RESPONSE) return;
+
+  const answerSelected = document.querySelectorAll("input:checked");
+
+  if (isCorrectSelectedQuestion(answerSelected, question.correct))
+    score.innerHTML = +score.innerHTML + config.increaseScore;
+};
+
+resetButton.onclick = () => {
+  createQuestion();
+};
+
+timerContainer.onclick = () => {
+  createQuestion();
+};
+
+const createQuestion = () => {
+  timer.stop();
+  timer.start();
+  const question = renderQuestion();
+  renderAnswer(question);
+};
+
+const getAnswerType = (question) =>
+  question.correct.length > 1 ? CHECKBOX_TYPE : RADIO_TYPE;
+
+const renderQuestion = () => {
+  const rndQuestionIndex = getRandomNum(QUESTION_DATA.length);
+  const newQuestion = QUESTION_DATA[rndQuestionIndex];
   questionContainer.innerHTML = newQuestion.question;
 
-  if (newQuestion.type === SELECTED_RESPONSE) {
-    const inputType = isCheckbox(newQuestion) ? "checkbox" : "radio";
-    child = newQuestion.answers
+  submitButton.onclick = () => {
+    submitAnswer(newQuestion);
+    submitButton.onclick = "";
+  };
+
+  return newQuestion;
+};
+
+const renderAnswer = (
+  question,
+  config = { name: "answer", placeholder: "Type here", textType: TEXT_TYPE }
+) => {
+  let child;
+  if (question.type === SELECTED_RESPONSE) {
+    const inputType = getAnswerType(question);
+    child = question.answers
       .map(
         (
           answer
@@ -102,11 +130,7 @@ const renderQuestion = (
       )
       .join("");
   } else {
-    child = `<input type="text" placeholder="${config.placeholder}" />`;
+    child = `<input type="${config.textType}" placeholder="${config.placeholder}" />`;
   }
   answerContainer.innerHTML = child;
-
-  submitButton.onclick = () => submitAnswer(newQuestion);
 };
-
-const timer = makeTimer();
