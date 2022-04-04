@@ -15,14 +15,30 @@ const QUESTION_DATA = [
     correct: ["24"],
   },
   {
+    type: SELECTED_RESPONSE,
+    question: "Where Does the Sun Rise?",
+    answers: ["East", "West", "South", "North"],
+    correct: ["East"],
+  },
+  {
+    type: SELECTED_RESPONSE,
+    question: "Where Does the Sun set?",
+    answers: ["East", "West", "South", "North"],
+    correct: ["West"],
+  },
+  {
     type: CONSTRUCTED_RESPONSE,
-    question: "What is your name",
+    question: "What is your name?",
   },
   {
     type: SELECTED_RESPONSE,
     question: "Which is animal?",
     answers: ["dog", "table", "turtle", "car"],
     correct: ["dog", "turtle"],
+  },
+  {
+    type: CONSTRUCTED_RESPONSE,
+    question: "How old are you?",
   },
 ];
 
