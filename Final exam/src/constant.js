@@ -1,0 +1,19 @@
+const SELECTED_RESPONSE = "SELECTED_RESPONSE";
+const CONSTRUCTED_RESPONSE = "CONSTRUCTED_RESPONSE";
+const DEFAULT_TIME = 1000;
+const CHECKBOX_TYPE = "checkbox";
+const RADIO_TYPE = "radio";
+const TEXT_TYPE = "text";
+const HARD_MODE = "hard";
+const EASY_MODE = "easy";
+
+export default {
+  SELECTED_RESPONSE,
+  CONSTRUCTED_RESPONSE,
+  DEFAULT_TIME,
+  CHECKBOX_TYPE,
+  RADIO_TYPE,
+  TEXT_TYPE,
+  HARD_MODE,
+  EASY_MODE,
+};
