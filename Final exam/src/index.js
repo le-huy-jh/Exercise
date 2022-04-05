@@ -3,26 +3,7 @@ import { QUESTION_DATA as data } from "./data";
 import { getContainers } from "./getContainers";
 import { getRandomNum } from "./utils";
 import { makeTimer } from "./makeTimer";
-const app = (
-  config = {
-    questionId,
-    answerId,
-    scoreId,
-    submitButtonId,
-    resetButtonId,
-    timerId,
-    mode,
-    increaseScore,
-    questionClass,
-    name,
-    placeholder,
-    constructedResponseType,
-    constructedResponseInputClass,
-    selectedResponseInputClass,
-    selectedResponseLabelClass,
-    QUESTION_DATA,
-  }
-) => {
+const app = (config) => {
   const {
     questionId = ".question",
     answerId = ".answer",
@@ -109,8 +90,7 @@ const app = (
   const renderQuestion = () => {
     const rndQuestionIndex = getRandomNum({ max: QUESTION_DATA.length });
     const newQuestion = QUESTION_DATA[rndQuestionIndex];
-    if (questionClass !== "")
-      questionContainer.classList.add(className);
+    if (questionClass !== "") questionContainer.classList.add(className);
     questionContainer.innerHTML = newQuestion.question;
 
     submitButton.onclick = () => {
